@@ -2,6 +2,7 @@
 def hello_message():
     print('Hello World')
 
+
 def login():
     u = input('username: ')
     p = input('password: ')
@@ -10,6 +11,7 @@ def login():
         print('welcome, Admin!')
     else:
         print('Invalid Credintials')
+
 
 def commands_help(command = ''):
     command_list = ['hello','login','help']
@@ -32,6 +34,7 @@ def main():
             break   
         else:
             print('Uknown command. spell-check or Enter help to open command list.')
+
 
 if __name__ == '__main__':
     main()
