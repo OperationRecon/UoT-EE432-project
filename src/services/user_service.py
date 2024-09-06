@@ -1,5 +1,5 @@
 from database import get_connection
-from utils.helpers import hash_password
+from utils.helpers import hash_password, verify_password
 from models.student import Student
 from models.teacher import Teacher
 from models.admin import Admin
