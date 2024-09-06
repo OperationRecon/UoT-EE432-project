@@ -15,7 +15,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
-            password TEXT NOT NULL,
+            password_hash BLOB NOT NULL,
             user_type TEXT NOT NULL,
         )
     ''')

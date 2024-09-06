@@ -11,7 +11,12 @@ class Subject:
         self.dept = dept
         self.branch = branch
 
-    def add(self):
+    def add_teacher(self, teacher):
+        # Implementation for adding a teacher
+        pass
+
+    def remove_teacher(self, teacher):
+        # Implementation for removing a teacher
         pass
 
 
