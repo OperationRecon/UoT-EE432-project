@@ -1,9 +1,8 @@
 class Grade:
-    def __init__(self, id, subject_id, student_id, semester, midterms, yearwork, final):
-        self.id = id
-        self.subject_id = subject_id
+    def __init__(self, subject_code, subject_title, student_id, semester, yearwork, final):
+        self.subject_code = subject_code
+        self.subject_title = subject_title
         self.student_id = student_id
         self.semester = semester
-        self.midterms = midterms
         self.yearwork = yearwork
         self.final = final

@@ -36,15 +36,17 @@ def init_db():
                 final REAL)''')
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS subjects (
-                code TEXT,
-                title TEXT,
-                preq BLOB,
-                coreq BLOB,
-                cr INTEGER,
+                code TEXT NOT NULL,
+                title TEXT NOT NULL,
+                preq TEXT,
+                coreq TEXT,
+                description TEXT,
+                cr INTEGER NOT NULL,
                 faculty TEXT,
                 dept TEXT,
                 branch TEXT,
-                description TEXT)''')
+                capacity INTEGER, 
+                maximum_capacity INTEGER)''')
 
     conn.commit()
     conn.close()

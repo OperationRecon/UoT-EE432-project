@@ -53,4 +53,13 @@ def run_cli():
 
 
 # List of commands available to all users
-commands = {"login": "", "help": command_help, "exit": "", "add subject": add_subject}
+commands = {
+    "login": "",
+    "help": command_help,
+    "exit": "",
+    "add subject": add_subject,
+    "update subject": update_subject,
+    "delete subject": delete_subject,
+    "list subjects": list_subjects,
+    "assign teacher": assign_teacher_to_subject
+}

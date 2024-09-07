@@ -1,5 +1,5 @@
 class Subject:
-    def __init__(self, code, title, preq, coreq, description, cr, faculty, dept, branch):
+    def __init__(self, code, title, preq, coreq, description, cr, faculty, dept, branch, capacity, maximum_capacity):
         self.id = None
         self.code = code
         self.title = title
@@ -10,6 +10,14 @@ class Subject:
         self.faculty = faculty
         self.dept = dept
         self.branch = branch
+        self.capacity = capacity
+        self.maximum_capacity = maximum_capacity
+
+    def __str__(self):
+        return f"Code: {self.code}, Title: {self.title}, Credits: {str(self.cr)}"
+
+    def __repr__(self):
+        return self.__str__()
 
     def add_teacher(self, teacher):
         # Implementation for adding a teacher
