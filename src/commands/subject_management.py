@@ -8,8 +8,8 @@ def add_subject(user):
         return 
     code = input("Enter subject's code: ")
     title = input("Enter subject's title: ")
-    preq = input("Enter subject's prequesites: ")
-    coreq = input("Enter subject's co-requisites: ")
+    preq = input("Enter subject's prequesites (codes seperated by spaces): ")
+    coreq = input("Enter subject's co-requisites (codes seperated by spaces): ")
     description = input("Enter subject's description: ")
     cr = input("Enter subject's credits: ")
     faculty = input("Enter subject's faculty: ")
