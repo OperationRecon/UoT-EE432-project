@@ -22,3 +22,15 @@ def add_subject(user):
         return
     print("Subject added successfully")
 
+def remove_subject(user):
+    if not utils.helpers.verify_role(type(user), [Admin]):
+        return
+    
+    code = input("Enter subject's code: ")
+
+    try:
+        subject_service.delete_subject((code))
+    except Exception as e:
+        print(e)
+        return
+    print("Subject removed successfully")

@@ -21,9 +21,12 @@ def update_subject(subject_id, subject_data):
     conn.close()
 
 
-def delete_subject(subject_id):
+def delete_subject(subject_code):
     conn = get_connection()
     # Implementation for deleting a subject from the database
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM subjects WHERE code = (?)", (subject_code,))
+    conn.commit()
     conn.close()
 
 
