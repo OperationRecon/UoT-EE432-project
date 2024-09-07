@@ -9,7 +9,7 @@ def login():
 
     if not user:
         print("Invalid Name or Password")
-
-    print('Logged in sccuessfully!')
+    else:
+        print('Logged in sccuessfully!')
     
     return user
