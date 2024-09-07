@@ -3,7 +3,7 @@ import sqlite3
 from models.admin import Admin
 from utils.helpers import hash_password
 
-DATABASE_NAME = r'data\\university.db'
+DATABASE_NAME = r'..\\university.db'
 
 
 def get_connection():

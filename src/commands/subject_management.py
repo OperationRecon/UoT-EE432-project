@@ -71,6 +71,8 @@ def update_subject(user):
 
 
 def list_subjects(user):
+    if not utils.helpers.verify_role(type(user), [Admin]):
+        return
     subjects = subject_service.get_all_subjects()
     if not subjects:
         print("No subjects found.")
