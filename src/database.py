@@ -41,7 +41,7 @@ def init_db():
                 preq BLOB,
                 coreq BLOB,
                 cr INTEGER,
-                facualty TEXT,
+                faculty TEXT,
                 dept TEXT,
                 branch TEXT,
                 description TEXT)''')
