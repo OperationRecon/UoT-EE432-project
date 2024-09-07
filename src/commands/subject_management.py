@@ -1,5 +1,8 @@
 from models.admin import Admin
-import utils.helpers 
+import utils.helpers
+from services import subject_service
+
+
 def add_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return 
@@ -12,6 +15,10 @@ def add_subject(user):
     faculty = input("Enter subject's faculty: ")
     dept = input("Enter subject's department: ")
     branch = input("Enter subject's branch: ")
-
-    print("create a subject")
+    try:
+        subject_service.add_subject((code, title, preq, coreq, description, cr, faculty, dept, branch, description))
+    except Exception as e:
+        print(e)
+        return
+    print("Subject added successfully")
 

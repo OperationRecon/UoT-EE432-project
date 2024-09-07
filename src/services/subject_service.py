@@ -3,7 +3,9 @@ from database import get_connection
 
 def add_subject(subject_data):
     conn = get_connection()
-    # Implementation for adding a subject to the database
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO subjects (code, title, preq, coreq, description, cr, faculty, dept, branch, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", subject_data)
+    conn.commit()
     conn.close()
 
 
