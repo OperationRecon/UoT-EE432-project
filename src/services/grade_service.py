@@ -1,14 +1,38 @@
 from database import get_connection
+from models.grade import Grade
 
 def add_grade(grade_data):
-    conn = get_connection()
-    # Implementation for adding a grade to the database
-    conn.close()
-
-def get_grade(student_id, subject_id):
-    conn = get_connection()
     # Implementation for retrieving a grade from the database
-    conn.close()
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('''
+                        INSERT INTO GRADES (subject_code, student_id, semester, yearwork, final) 
+                       VALUES (?, ?, ?, ?, ?)
+                        ''',
+                        grade_data)
+    finally:
+        conn.close()
+
+def get_grade(student_id, subject_code, semester):
+    # Implementation for retrieving a grade from the database
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.excecute('''
+                         SELECT * FROM grades WHERE
+                         subject_code = ? AND student_id = ? AND semester = ? 
+                         ''',
+                        (student_id,subject_code,semester)
+                         )
+        data = cursor.fetchone()
+        return Grade(data[0],data[1],data[2],data[3],data[4])
+    
+
+    finally:
+        conn.close()
 
 def update_grade(grade_id, grade_data):
     conn = get_connection()

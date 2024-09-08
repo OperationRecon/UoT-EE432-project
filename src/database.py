@@ -24,9 +24,7 @@ def init_db():
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS grades (
                 subject_code TEXT NOT NULL,
-                subject_title TEXT,
                 student_id INTEGER NOT NULL,
-                student_name TEXT,
                 semester TEXT,
                 yearwork REAL,
                 final REAL)''')
