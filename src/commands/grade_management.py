@@ -11,8 +11,8 @@ def add_grade(user):
     subject = input("Enter subject code: ")
     student = input("Enter student ID: ")
     sem = input("Enter semester: ")
-    yearwork = float(input("Enter yearwork grades: "))
-    final = float(input("Enter Final Grade: "))
+    yearwork = input("Enter yearwork grades: ")
+    final = input("Enter Final Grade: ")
 
     
     try:

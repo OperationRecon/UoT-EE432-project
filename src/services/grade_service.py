@@ -7,11 +7,10 @@ def add_grade(grade_data):
     cursor = conn.cursor()
 
     try:
-        cursor.execute('''
-                        INSERT INTO grades (subject_code, student_id, semester, yearwork, final) 
-                       VALUES (?, ?, ?, ?, ?)
-                        ''',
-                        grade_data)
+        cursor.execute('''INSERT INTO grades (subject_code, student_id, semester, yearwork, final) 
+                       VALUES (?, ?, ?, ?, ?)''', grade_data)
+        conn.commit()
+        
     finally:
         conn.close()
 
