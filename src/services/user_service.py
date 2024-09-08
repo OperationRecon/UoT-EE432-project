@@ -9,11 +9,12 @@ def add_user(user_data):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        hashed_password = hash_password(user_data['password'])
+        hashed_password = hash_password(user_data[1])
+        user_data[1] = hashed_password
         cursor.execute('''
-            INSERT INTO users (name, password_hash, user_type)
-            VALUES (?, ?, ?)
-        ''', (user_data['name'], hashed_password, user_data['user_type']))
+            INSERT INTO users (name, password_hash, user_type,id,enrollment_date)
+            VALUES (?, ?, ?, ?, ?)
+        ''', user_data)
         user_id = cursor.lastrowid
         conn.commit()
         return user_id
@@ -39,11 +40,11 @@ def get_user(user_id):
         conn.close()
 
 
-def authenticate_user(username, password):
+def authenticate_user(ID, password):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute('SELECT * FROM users WHERE name = ?', (username,))
+        cursor.execute('SELECT * FROM users WHERE id = ?', (ID,))
         user_data = cursor.fetchone()
         if user_data and verify_password(user_data[2], password):
             return get_user(user_data[0])
@@ -61,7 +62,6 @@ def update_user(user_id, user_data):
 
         update_fields = ', '.join([f"{k} = ?" for k in user_data.keys()])
         query = f"UPDATE users SET {update_fields} WHERE id = ?"
-
         cursor.execute(query, list(user_data.values()) + [user_id])
         conn.commit()
     finally:
@@ -72,7 +72,26 @@ def delete_user(user_id):
     conn = get_connection()
     cursor = conn.cursor()
     try:
+        deleted_user = get_user(user_id)
+        if not deleted_user:
+            return None
         cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
         conn.commit()
+        return deleted_user
     finally:
         conn.close()
+
+def get_specific_users(enrollment_date,users_type):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        if  enrollment_date:
+            cursor.execute('SELECT id FROM users WHERE enrollment_date = ? AND  user_type = ?', (enrollment_date,users_type))
+        else:
+            cursor.execute('SELECT id FROM users WHERE enrollment_date IS NULL AND  user_type = ?', (users_type,))
+        ids = cursor.fetchall()
+        print(ids)
+    finally:
+        conn.close()
+    return ids
+
