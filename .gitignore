@@ -165,3 +165,5 @@ data/sqlite3.def
 data/sqlite3.dll
 data/sqlite3.exe
 data/university.db
+src/sys_env.py
+src/sys_env.py
