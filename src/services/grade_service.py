@@ -8,7 +8,7 @@ def add_grade(grade_data):
 
     try:
         cursor.execute('''
-                        INSERT INTO GRADES (subject_code, student_id, semester, yearwork, final) 
+                        INSERT INTO grades (subject_code, student_id, semester, yearwork, final) 
                        VALUES (?, ?, ?, ?, ?)
                         ''',
                         grade_data)
@@ -21,14 +21,15 @@ def get_grade(student_id, subject_code, semester):
     cursor = conn.cursor()
 
     try:
-        cursor.excecute('''
+        cursor.execute('''
                          SELECT * FROM grades WHERE
                          subject_code = ? AND student_id = ? AND semester = ? 
                          ''',
-                        (student_id,subject_code,semester)
+                        (subject_code, student_id, semester)
                          )
         data = cursor.fetchone()
-        return Grade(data[0],data[1],data[2],data[3],data[4])
+        if data:
+            return Grade(data[0],data[1],data[2],data[3],data[4])
     
 
     finally:

@@ -5,3 +5,6 @@ class Grade:
         self.semester = semester
         self.yearwork = yearwork
         self.final = final
+
+    def __repr__(self) -> str:
+        return f'Subject: {self.subject_code}\nSemester: {self.semester}\nYearwork: {self.yearwork}\nFinal: {self.final}\nTotal: {self.yearwork+self.final}'

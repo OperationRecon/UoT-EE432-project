@@ -1,8 +1,7 @@
 from commands.subject_management import *
 from commands.user_management import *
+from commands.grade_management import *
 from models.user import User
-from services import user_service, subject_service, enrollment_service, grade_service
-
 
 def command_help(user):
     for i in commands.keys():
@@ -61,5 +60,8 @@ commands = {
     "update subject": update_subject,
     "delete subject": delete_subject,
     "list subjects": list_subjects,
-    "assign teacher": assign_teacher_to_subject
+    "assign teacher": assign_teacher_to_subject,
+    "add grade": add_grade,
+    "get grade": get_grade,
+    
 }
