@@ -10,7 +10,7 @@ def add_grade(grade_data):
         cursor.execute('''INSERT INTO grades (subject_code, student_id, semester, yearwork, final) 
                        VALUES (?, ?, ?, ?, ?)''', grade_data)
         conn.commit()
-        
+
     finally:
         conn.close()
 
@@ -34,9 +34,11 @@ def get_grade(student_id, subject_code, semester):
     finally:
         conn.close()
 
-def update_grade(grade_id, grade_data):
+def update_grade(grade):
     conn = get_connection()
-    # Implementation for updating a grade in the database
+    cursor = conn.cursor()
+    cursor.execute("UPDATE grades SET yearwork = ?, final= ? WHERE subject_code = ? AND student_id = ?")
+    conn.commit()
     conn.close()
 
 def delete_grade(grade_id):
