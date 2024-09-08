@@ -14,7 +14,8 @@ def init_db():
                    id INTEGER PRIMARY KEY,
                    name TEXT NOT NULL,
                    password_hash BLOB NOT NULL,
-                   user_type TEXT NOT NULL)''')
+                   user_type TEXT NOT NULL,
+                   enrollment_date INTEGER)''')
     
     p_hash = hash_password(FIRST_ADMIN["password"])
 
