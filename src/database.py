@@ -1,10 +1,6 @@
 import sqlite3
-
-from models.admin import Admin
+from sys_env import *
 from utils.helpers import hash_password
-
-DATABASE_NAME = r'..\\university.db'
-
 
 def get_connection():
     return sqlite3.connect(DATABASE_NAME)
@@ -20,21 +16,19 @@ def init_db():
                    password_hash BLOB NOT NULL,
                    user_type TEXT NOT NULL)''')
     
-    admin = Admin(1,'admin', 'admin')
-    p_hash = hash_password(admin.password)
+    p_hash = hash_password(FIRST_ADMIN["password"])
 
     cursor.execute('''INSERT OR IGNORE INTO users (id ,name, password_hash, user_type)
-                   Values (?, ?, ? ,"admin") ''', (admin.id,admin.name,p_hash))
+                   Values (?, ?, ? ,"admin") ''', (1,FIRST_ADMIN['name'],p_hash))
     
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS grades (
                 subject_code TEXT NOT NULL,
-                subject_title TEXT,
                 student_id INTEGER NOT NULL,
-                student_name TEXT,
                 semester TEXT,
                 yearwork REAL,
                 final REAL)''')
+    
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS subjects (
                 code TEXT NOT NULL,
