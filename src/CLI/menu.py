@@ -83,6 +83,7 @@ commands = {
     "get user": get_user,
     "list users": get_all_users,
 
+    'enroll': enroll,
     "force enroll": force_enroll,
     "drop out": drop_out,
 

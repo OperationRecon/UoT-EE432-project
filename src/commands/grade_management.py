@@ -93,9 +93,11 @@ def assign_grade(user):
     final = input("Enter Final Grade: ")
 
     try:
+        group = grade_service.get_grade(student,subject,sem).subject_group
         grade_service.update_grade((subject, student, sem),
                                    {'subject_code': subject, 'student_ID': student,
-                                    'semester': sem, 'yearwork': yearwork, 'final': final,})
+                                    'semester': sem, 'yearwork': yearwork, 'final': final,
+                                    'subject_group': group,})
         print("Grade assigned successfully!")
     except Exception as e:
         print(f"Error assigning grade: {e}")
@@ -125,8 +127,8 @@ def get_subject_grades(user):
     try:
         grades = grade_service.get_subject_grades(subject, sem, subject_group)
         for grade in grades:
-            student_name = user_service.get_user(grade.student_id).name
-            print(f"Student ID: {grade.student_id}, Student Name: {student_name}, Year-work: {grade.yearwork}, Final: {grade.final}")
+            student = user_service.get_user(grade.student_id)
+            print(f'\nStudent: {student.name}\nID: {student.id}\n{grade}\n')
     except Exception as e:
         print(f"Error fetching subject grades: {e}")
 
@@ -139,8 +141,7 @@ def get_student_grades(user):
     try:
         grades = grade_service.get_student_grades(student_id)
         for grade in grades:
-            print(
-                f"Subject: {grade.subject_code}, Semester: {grade.semester}, Year-work: {grade.yearwork}, Final: {grade.final}")
+            print(f'\n{grade}\n')
     except Exception as e:
         print(f"Error fetching student grades: {e}")
 

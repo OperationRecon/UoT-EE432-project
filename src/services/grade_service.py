@@ -39,7 +39,7 @@ def update_grade(grade_identifiers, grade_data):
     cursor = conn.cursor()
     try:
         update_fields = ', '.join([f"{k} = ?" for k in grade_data.keys()])
-        query = f"UPDATE grades SET {update_fields} WHERE subject_code = ? AND student_id = ? AND semester = ? AND subject_group = ?"
+        query = f"UPDATE grades SET {update_fields} WHERE subject_code = ? AND student_id = ? AND semester = ?"
         cursor.execute(query, tuple(grade_data.values()) + grade_identifiers)
         conn.commit()
 
