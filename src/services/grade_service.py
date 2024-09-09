@@ -34,12 +34,17 @@ def get_grade(student_id, subject_code, semester):
     finally:
         conn.close()
 
-def update_grade(grade):
+def update_grade(grade_identifieres,grade_data):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE grades SET yearwork = ?, final= ? WHERE subject_code = ? AND student_id = ?")
-    conn.commit()
-    conn.close()
+    try:
+        update_fields = ', '.join([f"{k} = ?" for k in grade_data.keys()])
+        query = f"UPDATE grades SET {update_fields} WHERE subject_code = ? AND student_id = ? AND semester = ? "
+        cursor.execute(query, tuple(grade_data.values()) + (grade_identifieres))
+        conn.commit()
+        
+    finally:
+        conn.close()
 
 def delete_grade(grade_id):
     conn = get_connection()

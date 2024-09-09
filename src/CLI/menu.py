@@ -68,4 +68,6 @@ commands = {
     "update user" : update_user,
     "update password" : update_password,
     "get user" : get_user,
+    "update grade": update_grade,
+
 }

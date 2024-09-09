@@ -24,11 +24,14 @@ def get_subject(subject_code):
 def update_subject(subject_code, subject_data):
     conn = get_connection()
     cursor = conn.cursor()
-    update_fields = ', '.join([f"{k} = ?" for k in subject_data.keys()])
-    query = f"UPDATE subjects SET {update_fields} WHERE code = ?"
-    cursor.execute(query, list(subject_data.values()) + [subject_code])
-    conn.commit()
-    conn.close()
+    try:
+        update_fields = ', '.join([f"{k} = ?" for k in subject_data.keys()])
+        query = f"UPDATE subjects SET {update_fields} WHERE code = ?"
+        cursor.execute(query, list(subject_data.values()) + [subject_code])
+        conn.commit()
+        
+    finally:
+        conn.close()
 
 
 def delete_subject(subject_code):
