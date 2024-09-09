@@ -59,3 +59,6 @@ def delete_subject_group(user):
         print("Subject Group deleted successfully")
     except Exception as e:
         print(f"Error deleting subject group: {e}")
+
+def get_all_subject_groups(subject_code):
+    pass

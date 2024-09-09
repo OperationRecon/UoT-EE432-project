@@ -22,9 +22,12 @@ def verify_role(user_role, allowed_roles):
     return True
 
 
-def check_prereq(student_id, subject_id):
+def check_prereq(student_if, subject_code):
     pass
 
 
-def check_coreq(student_id, subject_id):
+def check_coreq(student_id, subject_code):
+    pass
+
+def get_capacity(subject_group):
     pass
