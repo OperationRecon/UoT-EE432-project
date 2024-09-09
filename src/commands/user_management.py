@@ -138,6 +138,18 @@ def is_strong_password(password):
         return True
     return False
 
+def get_user(user):
+    if not utils.helpers.verify_role(type(user), [Admin]):
+        return
+    id = input("Enter the user ID to get: ")
+    current_user = user_service.get_user(id)
+    print(f"name : {current_user.name}")
+    print(f"id : {current_user.id}")
+    print(f"user type : {current_user.user_type}")
+
+def get_all_users(user):
+    pass
+
 
 
 

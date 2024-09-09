@@ -90,7 +90,6 @@ def get_specific_users(enrollment_date,users_type):
         else:
             cursor.execute('SELECT id FROM users WHERE enrollment_date IS NULL AND  user_type = ?', (users_type,))
         ids = cursor.fetchall()
-        print(ids)
     finally:
         conn.close()
     return ids

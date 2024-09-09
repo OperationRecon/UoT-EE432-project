@@ -63,5 +63,9 @@ commands = {
     "assign teacher": assign_teacher_to_subject,
     "add grade": add_grade,
     "get grade": get_grade,
-    
+    "add user" : add_user,
+    "delete user" : delete_user,
+    "update user" : update_user,
+    "update password" : update_password,
+    "get user" : get_user,
 }
