@@ -4,13 +4,17 @@ from commands.user_management import *
 from commands.grade_management import *
 from commands.subject_group_management import *
 from models.user import User
+from models.admin import Admin
+from models.student import Student
+from models.teacher import Teacher
 
 def command_help(user):
     for i in commands.keys():
         if i == "login":
             print(i, " (With a different user)")
             continue
-        print(i)
+        if isinstance(user,commands[i][1]):
+            print(i)
 
 
 def display_main_menu():
@@ -43,7 +47,7 @@ def handle_user_input():
                 continue
 
             else:
-                commands[command](current_user)
+                commands[command][0](current_user)
 
         else:
             print("Invalid command!")
@@ -55,37 +59,37 @@ def run_cli():
 
 # List of commands available to all users
 commands = {
-    "login": "",
-    "help": command_help,
-    "exit": "",
+    "login": ("",(Admin,Student,Teacher)),
+    "help": (command_help,(Admin,Student,Teacher)),
+    "exit": ("",(Admin,Student,Teacher)),
 
-    "add subject": add_subject,
-    "update subject": update_subject,
-    "delete subject": delete_subject,
-    "list subjects": list_subjects,
+    "add subject": (add_subject,Admin),
+    "update subject": (update_subject,Admin),
+    "delete subject": (delete_subject,Admin),
+    "list subjects": (list_subjects,Admin),
 
-    "add subject group": add_subject_group,
-    "update subject group": update_subject_group,
-    "delete subject group": delete_subject_group,
+    "add subject group": (add_subject_group,Admin),
+    "update subject group": (update_subject_group,Admin),
+    "delete subject group": (delete_subject_group,Admin),
 
-    "add grade": add_grade,
-    "get grade": get_grade,
-    "update_grade": update_grade,
-    "assign_grade": assign_grade,
-    "delete_grade": delete_grade,
-    "get subject grades": get_subject_grades,
-    "get student grades": get_student_grades,
+    "add grade": (add_grade,Admin),
+    "get grade": (get_grade,Admin),
+    "update_grade": (update_grade,Admin),
+    "assign_grade": (assign_grade,(Admin,Teacher)),
+    "delete_grade": (delete_grade,Admin),
+    "get subject grades": (get_subject_grades,(Admin,Teacher)),
+    "get student grades": (get_student_grades,(Admin,Student)),
 
-    "add user": add_user,
-    "delete user": delete_user,
-    "update user": update_user,
-    "update password": update_password,
-    "get user": get_user,
-    "list users": get_all_users,
+    "add user": (add_user,Admin),
+    "delete user": (delete_user,Admin),
+    "update user": (update_user,Admin),
+    "update password": (update_password,(Admin,Teacher,Student)),
+    "get user": (get_user,Admin),
+    "list users": (get_all_users,Admin),
 
-    "force enroll": force_enroll,
-    "drop out": drop_out,
+    "force enroll": (force_enroll,Admin),
+    "drop out": (drop_out,Admin),
 
-    "set current semester": set_current_semester,
-    "get current semester": get_current_semester
+    "set current semester": (set_current_semester,Admin),
+    "get current semester": (get_current_semester,(Admin,Student,Teacher))
 }
