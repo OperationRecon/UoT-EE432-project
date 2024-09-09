@@ -54,5 +54,37 @@ def get_all_subjects():
 
 
 def get_available_subjects(student_id):
-    # return [[sg for sg in get_all_subject_groups(s.subject_code) if and utils.helpers.check_prereq(student_id, s.code) and utils.helpers.check_coreq(student_id, s.code)] for s in subjects]
-    pass
+    conn = get_connection()
+    cursor = conn.cursor()
+    print(student_id)
+    try:
+        # Get passed subjects
+        cursor.execute('''SELECT code FROM subjects
+                    WHERE (code IN 
+                    (SELECT subject_code
+                    FROM grades WHERE (yearwork + final) >= 50 AND student_id = (?)))''', (int(student_id),))
+        
+        passed = [x[0] for x in cursor.fetchall()]
+        
+        print(student_id)
+        # Get currently studied subjects
+        cursor.execute('''SELECT subject_code FROM grades WHERE student_id = (?) AND semester IN (SELECT * FROM current_semester)''', (int(student_id),))
+        current = [x[0] for x in cursor.fetchall()]
+
+        print(student_id)
+        # Get other subjects
+        cursor.execute('''SELECT code, preq, coreq FROM subjects
+                    WHERE (code NOT IN 
+                    (SELECT subject_code
+                    FROM grades WHERE student_id = ?))''', (int(student_id),))
+        
+        potential = cursor.fetchall()
+
+        # Get subjects whose prequesites and corequisites are satisfied
+        available_subjects = [subject[0] for subject in potential if all(item in passed for item in subject[1].split()) and all(item in current for item in subject[2].split())]
+
+        return available_subjects
+
+    finally:
+        cursor.close
+

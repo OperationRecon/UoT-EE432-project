@@ -44,12 +44,11 @@ def show_available_subjects(student_id):
         elif show == "Y":
             break
     try:
-        subjects = subject_service.get_all_subjects()
         available_subjects = subject_service.get_available_subjects(student_id)
         for subject in available_subjects:
-            for subject_group in subject:
-                print(
-                    f"Code: {subject.code}, Title: {subject.title}, Available Seats: {int(subject_group.maximum_capacity) - int(utils.helpers.get_capacity(subject))}")
+            subject = subject_service.get_subject(subject)
+            print(
+                    f"Code: {subject.code}, Title: {subject.title}")
     except Exception as e:
         print(f"Error fetching available subjects: {e}")
 
