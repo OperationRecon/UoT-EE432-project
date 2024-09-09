@@ -32,7 +32,22 @@ def add_user(user):
         enrollment_date = input("Enter user's enrollment_date (year) : ")
     else:
         enrollment_date = None
-    id = create_id_user(enrollment_date, user_type)
+    has_id = input("Does the user have an ID? (Y/N)")
+    if has_id == "Y":
+        existing_ids = [str(i[0]) for i in user_service.get_specific_users(enrollment_date, user_type)]
+        while True:
+            id = input("Enter user's ID : ")
+            if id in existing_ids:
+                print("The entry ID you provided is already in use.")
+                has_id = input("Do you want to enter a different ID (Y/N)")
+                if has_id == "Y":
+                    continue
+                else:
+                    id = create_id_user(enrollment_date, user_type)
+                    break
+            break
+    else:
+        id = create_id_user(enrollment_date, user_type)
     try:
         user_id = user_service.add_user([name,id,user_type,id,enrollment_date])
         print(f"The {user_type} added successfully, user's id : {user_id}")
@@ -44,6 +59,8 @@ def create_id_user(enrollment_date, user_type):
     if user_type == "admin":
         ids = [i[0] for i in user_service.get_specific_users(None,user_type)]
         ids.sort()
+        if ids[-1] == len(ids):
+            return str(ids[-1] + 1)
         if 1 not in ids:
             return "1"
         for i in range(0,len(ids)-1):
@@ -58,7 +75,7 @@ def create_id_user(enrollment_date, user_type):
     else:
             first_part = '120'
             second_part = str(random.randint(0, 99999)).zfill(5)
-    existing_ids = user_service.get_specific_users(enrollment_date,user_type)
+    existing_ids = [i[0] for i in user_service.get_specific_users(enrollment_date,user_type)]
     if not existing_ids:
         existing_ids = [-1]
     third_part = str(random.randint(0, 9999)).zfill(4)
