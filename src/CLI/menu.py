@@ -66,7 +66,7 @@ commands = {
     "add user" : add_user,
     "delete user" : delete_user,
     "update user" : update_user,
-    "update password" : update_password,
+    "update password"  : update_password,
     "get user" : get_user,
     "update grade": update_grade,
 
