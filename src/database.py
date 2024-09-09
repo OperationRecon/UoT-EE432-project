@@ -48,7 +48,8 @@ def init_db():
                 teacher_id INTEGER,
                 subject_group TEXT NOT NULL,
                 maximum_capacity INTEGER,
-                semester TEXT NOT NULL)''')
+                semester TEXT NOT NULL,
+                capacity INTEGER NOT NULL)''')
 
     conn.commit()
     conn.close()

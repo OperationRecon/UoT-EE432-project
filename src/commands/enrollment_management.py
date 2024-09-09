@@ -21,14 +21,13 @@ def enroll(user):
         if not subject_group:
             print("Subject group not found.")
             return
-        capacity = utils.helpers.get_capacity(subject_group)
         if not utils.helpers.check_prereq(student_id, subject_code) or not utils.helpers.check_coreq(student_id, subject_code):
             print("Can't enroll in this subject due to insufficient requirements")
-        if int(capacity) >= int(subject_group.maximum_capacity):
+        if int(subject_group.capacity) >= int(subject_group.maximum_capacity):
             print("Subject capacity is full.")
             return
         grade_service.add_grade((subject_code, student_id, semester, None, None))
-        #subject_service.update_subject(subject_code, {"capacity": str(int(subject.capacity) + 1)})
+        #subject_service.update_subject(subject_code, {"capacity": int(subject.capacity) + 1})
         print("Enrolled successfully!")
     except Exception as e:
         print(f"Error enrolling: {e}")
@@ -40,7 +39,7 @@ def show_available_subjects(user):
     student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
     try:
         subjects = subject_service.get_all_subjects()
-        available_subjects = [[sg for sg in get_all_subject_groups(s.subject_code) if int(utils.helpers.get_capacity(sg)) < int(sg.maximum_capacity) and utils.helpers.check_prereq(student_id, s.code) and utils.helpers.check_coreq(student_id, s.code)] for s in subjects]
+        available_subjects = subject_service.get_available_subjects(student_id)
         for subject in available_subjects:
             for subject_group in subject:
                 print(
@@ -75,9 +74,8 @@ def force_enroll(user):
 
     
     try:
-        grade_service.add_grade((subject,student,sem,0,0))
+        grade_service.add_grade((subject, student, sem, 0, 0))
         print("Student Enrolled successully!")
 
     except Exception as e:
         print(f"Error enrolling student: {e}")
-

@@ -50,7 +50,7 @@ def delete_subject_group(subject_code, subject_group, semester):
     finally:
         conn.close()
 
-def get_available_seats(subject_code, subject_group, semester):
+def get_available_seats(subject_code, subject_group, semester): # revision
     conn = get_connection()
     cursor = conn.cursor()
     try:
