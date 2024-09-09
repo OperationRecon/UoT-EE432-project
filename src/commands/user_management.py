@@ -89,7 +89,7 @@ def update_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     user_id = input("Enter the user ID to update: ")
-    updated_user = user_service.get_user(user.id)
+    updated_user = user_service.get_user(user_id)
     if not updated_user:
         print("User not found!")
         return

@@ -57,7 +57,7 @@ def update_user(user_id, user_data):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        if user_data["password"]:
+        if "password" in user_data.keys():
             user_data['password_hash'] = hash_password(user_data.pop('password'))
 
         update_fields = ', '.join([f"{k} = ?" for k in user_data.keys()])
