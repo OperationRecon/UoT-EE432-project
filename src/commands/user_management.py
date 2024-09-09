@@ -112,7 +112,7 @@ def update_user(user):
 def update_password(user):
     current_password = input("Enter your current password: ")
     user = user_service.get_user(user.id)
-    if not user or not user_service.authenticate_user(user.name, current_password):
+    if not user or not user_service.authenticate_user(user.id, current_password):
         print("Current password is incorrect.")
         return
     print("When updating your password, please ensure it meets the following criteria:\n"
