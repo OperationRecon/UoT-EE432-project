@@ -6,8 +6,8 @@ def add_subject_group(subject_group_data):
     cursor = conn.cursor()
     try:
         cursor.execute('''
-            INSERT INTO subject_groups (subject_code, teacher_id, subject_group, maximum_capacity, semester)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO subject_groups (subject_code, teacher_id, subject_group, maximum_capacity, semester, capacity)
+            VALUES (?, ?, ?, ?, ?, ?)
         ''', subject_group_data)
         conn.commit()
     finally:
@@ -27,6 +27,7 @@ def get_subject_group(subject_code, subject_group, semester):
     finally:
         conn.close()
 
+
 def update_subject_group(subject_code, subject_group, semester, update_data):
     conn = get_connection()
     cursor = conn.cursor()
@@ -37,6 +38,7 @@ def update_subject_group(subject_code, subject_group, semester, update_data):
         conn.commit()
     finally:
         conn.close()
+
 
 def delete_subject_group(subject_code, subject_group, semester):
     conn = get_connection()
