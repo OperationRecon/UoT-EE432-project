@@ -1,7 +1,7 @@
 from models.student import Student
 from models.admin import Admin
 import utils.helpers
-from services import subject_service, subject_group_service, grade_service, enrollement_service
+from services import subject_service, subject_group_service, grade_service, enrollment_service
 
 
 def enroll(user):
@@ -12,7 +12,7 @@ def enroll(user):
     subject_code = input("Enter subject code: ")
     show_available_subject_groups(subject_code)
     subject_group_number = input("Enter subject group: ")
-    semester = enrollement_service.get_current_semester()
+    semester = enrollment_service.get_current_semester()
 
     try:
         subject = subject_service.get_subject(subject_code)
@@ -63,7 +63,7 @@ def force_drop_out(user):
         return
     subject = input("Enter subject code: ")
     student = input("Enter student ID: ")
-    sem = enrollement_service.get_current_semester()
+    sem = enrollment_service.get_current_semester()
 
     try:
         grade_service.delete_grade(student, subject, sem)
@@ -84,7 +84,7 @@ def force_enroll(user):
     # calls add grade with none without check
     subject = input("Enter subject code: ")
     student = input("Enter student ID: ")
-    sem = enrollement_service.get_current_semester()
+    sem = enrollment_service.get_current_semester()
 
     try:
         grade_service.add_grade((subject, student, sem, 0, 0))
@@ -92,3 +92,23 @@ def force_enroll(user):
 
     except Exception as e:
         print(f"Error enrolling student: {e}")
+
+
+def set_current_semester(user):
+    if not utils.helpers.verify_role(type(user), [Admin]):
+        return
+    current_semester = input("Enter current semester (e.g: SPRING-2024): ")
+    try:
+        enrollment_service.set_current_semester(current_semester)
+        print("Current semester was set successully!")
+
+    except Exception as e:
+        print(f"Error setting current semester: {e}")
+
+
+def get_current_semester(user):
+    try:
+        current_semester = enrollment_service.get_current_semester()
+        print(f"Current Semester is: {current_semester}")
+    except Exception as e:
+        print(f"Error fetching current semester: {e}")

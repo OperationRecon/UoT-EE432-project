@@ -85,4 +85,7 @@ commands = {
 
     "force enroll": force_enroll,
     "drop out": drop_out,
+
+    "set current semester": set_current_semester,
+    "get current semester": get_current_semester
 }

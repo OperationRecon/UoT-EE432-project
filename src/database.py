@@ -51,5 +51,8 @@ def init_db():
                 semester TEXT NOT NULL,
                 capacity INTEGER NOT NULL)''')
 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS current_semester (semester TEXT PRIMARY KEY)''')
+    cursor.execute('''INSERT INTO current_semester (semester) SELECT NULL WHERE NOT EXISTS (SELECT 1 FROM current_semester)''')
+
     conn.commit()
     conn.close()

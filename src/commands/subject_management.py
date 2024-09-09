@@ -81,7 +81,7 @@ def list_subjects(user):
         print(subject)
 
 
-def assign_teacher_to_subject_group(user): #relocate to subject_group_management?
+def assign_teacher_to_subject_group(user):  # delete?
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     teacher_id = input("Enter teacher ID: ")
