@@ -41,6 +41,16 @@ def add_user(user):
 
 
 def create_id_user(enrollment_date, user_type):
+    if user_type == "admin":
+        ids = [i[0] for i in user_service.get_specific_users(None,user_type)]
+        ids.sort()
+        if 1 not in ids:
+            return "1"
+        for i in range(0,len(ids)-1):
+            if ids[i+1] - ids[i] > 1:
+                return str(ids[i] + 1)
+        return str(ids[-1] + 1)
+
     if user_type == "student":
         year_str = str(enrollment_date)
         first_part = year_str[0] + year_str[2:]
