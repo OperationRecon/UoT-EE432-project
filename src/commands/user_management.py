@@ -57,8 +57,8 @@ def create_id_user(enrollment_date, user_type):
         if user_id not in existing_ids and len(set(third_part))>1:
             break
         else:
-            new_part = str((int(third_part) + 1) % 10000).zfill(4)
-            user_id = first_part + second_part + new_part
+            third_part = str((int(third_part) + 1) % 10000).zfill(4)
+            user_id = first_part + second_part + third_part
             if user_id not in existing_ids and len(set(third_part))>1:
                 break
 
@@ -99,13 +99,16 @@ def update_user(user):
     print("Leave field empty if you don't want to update it.")
     password = input("Enter new Password: ")
     name = input(f"Enter new name ({updated_user.name}): ") or updated_user.name
-    enrollment_date = input(f"Enter new enrollment date ({updated_user.enrollment_date}): ") or updated_user.enrollment_date
-    user_type = input(f"Enter new user type (student, teacher, admin) ({updated_user.type}): ") or updated_user.type
+    user_type = input(f"Enter new user type (student, teacher, admin) ({updated_user.user_type}): ") or updated_user.user_type
     if user_type not in ["student", "admin", "teacher",""]:
         print(f"Error updating user: Invalid user type")
         return
+    if updated_user.user_type == "student":
+        enrollment_date = input(f"Enter new enrollment date ({updated_user.enrollment_date}): ") or updated_user.enrollment_date
+    else:
+        enrollment_date = None
     try:
-        user_service.update_user(user_id, {"name": name, "enrollment_date": enrollment_date, "user_type": user_type})
+        user_service.update_user(user_id, {"name": name, "enrollment_date": enrollment_date, "user_type": user_type , "password": password})
         print(f"User with ID {user_id} updated successfully.")
     except Exception as e:
         print(f"Error updating user: {e}")
