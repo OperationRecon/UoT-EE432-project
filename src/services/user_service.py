@@ -30,7 +30,7 @@ def get_user(user_id):
         user_data = cursor.fetchone()
         if user_data:
             if user_data[3] == 'student':
-                return Student(user_data[0], user_data[1], user_data[2], None)  # Add enrollment_date
+                return Student(user_data[0], user_data[1], user_data[2], user_data[4])
             elif user_data[3] == 'teacher':
                 return Teacher(user_data[0], user_data[1], user_data[2], None)  # Add cert
             elif user_data[3] == 'admin':
@@ -57,6 +57,8 @@ def update_user(user_id, user_data):
     conn = get_connection()
     cursor = conn.cursor()
     try:
+        if not user_data["password"]:
+            user_data.pop("password")
         if "password" in user_data.keys():
             user_data['password_hash'] = hash_password(user_data.pop('password'))
 
