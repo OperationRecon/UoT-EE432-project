@@ -53,20 +53,6 @@ def get_all_subjects():
         conn.close()
 
 
-def assign_teacher_to_subject_group(subject_code, teacher_id, subject_group, semester):
-    conn = get_connection()
-    cursor = conn.cursor()
-    try:
-        cursor.execute('''
-            UPDATE subject_groups
-            SET teacher_id = ?
-            WHERE subject_code = ? AND subject_group = ? AND semester = ?
-        ''', (teacher_id, subject_code, subject_group, semester))
-        conn.commit()
-    finally:
-        conn.close()
-
-
 def get_available_subjects(student_id):
     # return [[sg for sg in get_all_subject_groups(s.subject_code) if int(sg.capacity) < int(sg.maximum_capacity) and utils.helpers.check_prereq(student_id, s.code) and utils.helpers.check_coreq(student_id, s.code)] for s in subjects]
     pass

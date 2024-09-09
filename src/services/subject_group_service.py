@@ -67,3 +67,7 @@ def get_available_seats(subject_code, subject_group, semester): # revision
         return result[0] if result else 0
     finally:
         conn.close()
+
+def get_available_subject_groups(subject):
+    # return [sg for sg in subject_groups if int(sg.capacity) < int(sg.maximum_capacity)]
+    pass

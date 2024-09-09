@@ -1,19 +1,17 @@
 from database import get_connection
 
 
-def enroll(student_id, subject_id):
-    conn = get_connection()
-    # Implementation for enrolling a student in a subject
-    conn.close()
+def check_prereq(student_if, subject_code):
+    pass
 
 
-def drop_out(student_id, subject_id):
-    conn = get_connection()
-    # Implementation for dropping a student from a subject
-    conn.close()
+def check_coreq(student_id, subject_code):
+    pass
 
 
-def force_enroll(student_id, subject_id):
-    conn = get_connection()
-    # Implementation for force enrolling a student
-    conn.close()
+def change_current_semester():
+    pass
+
+
+def get_current_semester():
+    pass
