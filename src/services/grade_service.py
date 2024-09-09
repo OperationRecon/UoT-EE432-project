@@ -81,7 +81,23 @@ def get_student_grades(student_id):
         cursor.execute('''
             SELECT * FROM grades
             WHERE student_id = ?
+            AND yearwork IS NOT NULL
+            AND final IS NOT NULL
         ''', (student_id,))
+        grades = cursor.fetchall()
+        return [Grade(*grade) for grade in grades]
+    finally:
+        conn.close()
+
+
+def get_semester(student_id, semester):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+                SELECT * FROM grades
+                WHERE student_id = ? And semester = ?
+            ''', (student_id, semester))
         grades = cursor.fetchall()
         return [Grade(*grade) for grade in grades]
     finally:
