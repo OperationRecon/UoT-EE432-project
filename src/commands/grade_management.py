@@ -10,13 +10,15 @@ def add_grade(user):
         return
     subject = input("Enter subject code: ")
     student = input("Enter student ID: ")
+    group = input('Enter student\'s group: ')
     sem = input("Enter semester: ")
     yearwork = input("Enter yearwork grades: ")
     final = input("Enter Final Grade: ")
+    
 
     
     try:
-        grade_service.add_grade((subject,student,sem,yearwork,final))
+        grade_service.add_grade((subject,student,sem,yearwork,final,group))
         print("Grade Added successully!")
 
     except Exception as e:
@@ -66,12 +68,14 @@ def update_grade(user):
     subject_code = input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code
     student_ID = input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id
     semester = input(f"Enter new semester ({grade.semester}): ") or grade.semester
+    subject_group = input(f"Enter new group ({grade.group}): ") or grade.group
     yearwork = input(f"Enter new yearwork grade ({grade.yearwork}): ") or grade.yearwork
     final = input(f"Enter new final exam grade ({grade.final}): ") or grade.final
     try:
         grade_service.update_grade((subject, sID, sem),
                                     {'subject_code':subject_code, 'student_ID':student_ID,
-                                    'semester':semester,'yearwork':yearwork,'final':final,})
+                                    'semester':semester,'yearwork':yearwork,'final':final,
+                                    "subject_group": subject_group})
 
         print("Grade updated successfully")
     except Exception as e:

@@ -49,7 +49,7 @@ def show_available_subjects(student_id):
         for subject in available_subjects:
             for subject_group in subject:
                 print(
-                    f"Code: {subject.code}, Title: {subject.title}, Available Seats: {int(subject_group.maximum_capacity) - int(utils.helpers.get_capacity(s))}")
+                    f"Code: {subject.code}, Title: {subject.title}, Available Seats: {int(subject_group.maximum_capacity) - int(utils.helpers.get_capacity(subject))}")
     except Exception as e:
         print(f"Error fetching available subjects: {e}")
 

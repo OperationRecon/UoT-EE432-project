@@ -22,7 +22,7 @@ def get_grade(student_id, subject_code, semester):
     try:
         cursor.execute('''
                          SELECT * FROM grades WHERE
-                         subject_code = ? AND student_id = ? AND semester = ? 
+                         subject_code = ? AND student_id = ? AND semester = ?
                          ''',
                        (subject_code, student_id, semester)
                        )
