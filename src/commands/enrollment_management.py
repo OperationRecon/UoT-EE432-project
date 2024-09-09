@@ -8,7 +8,9 @@ def enroll(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
     student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
+    show_available_subjects(student_id)
     subject_code = input("Enter subject code: ")
+    show_available_subject_groups(subject_code)
     subject_group_number = input("Enter subject group: ")
     semester = enrollement_service.get_current_semester()
 
@@ -35,6 +37,12 @@ def enroll(user):
 
 
 def show_available_subjects(student_id):
+    while True:
+        show = input(r"Do you want to view available subject:(Y\N)")
+        if show == "N":
+            return
+        elif show == "Y":
+            break
     try:
         subjects = subject_service.get_all_subjects()
         available_subjects = subject_service.get_available_subjects(student_id)
@@ -46,7 +54,7 @@ def show_available_subjects(student_id):
         print(f"Error fetching available subjects: {e}")
 
 
-def show_available_subject_groups(subject):
+def show_available_subject_groups(subject_code):
     pass
 
 
