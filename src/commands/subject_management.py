@@ -16,11 +16,9 @@ def add_subject(user):
     faculty = input("Enter subject's faculty: ")
     dept = input("Enter subject's department: ")
     branch = input("Enter subject's branch: ")
-    capacity = input("Enter subject's capacity: ")
-    maximum_capacity = input("Enter subject's maximum capacity: ")
     try:
         subject_service.add_subject((code, title, preq, coreq, description, cr,
-                                     faculty, dept, branch, capacity, maximum_capacity))
+                                     faculty, dept, branch))
         print("Subject added successfully")
     except Exception as e:
         print(f"Error adding subject: {e}")
@@ -30,6 +28,10 @@ def delete_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject_code = input("Enter subject code to delete: ")
+    subject = subject_service.get_subject(subject_code)
+    if not subject:
+        print("Subject not found.")
+        return
     try:
         subject_service.delete_subject(subject_code)
         print("Subject deleted successfully")
@@ -56,14 +58,12 @@ def update_subject(user):
     faculty = input(f"Enter new faculty ({subject.faculty}): ") or subject.faculty
     dept = input(f"Enter new department ({subject.dept}): ") or subject.dept
     branch = input(f"Enter new branch ({subject.branch}): ") or subject.branch
-    capacity = input(f"Enter new capacity ({subject.capacity}): ") or subject.capacity
-    maximum_capacity = input(f"Enter new maximum_capacity ({subject.maximum_capacity}): ") or subject.maximum_capacity
 
     try:
         subject_service.update_subject(subject_code, {
             "code": code, "title": title, "preq": preq, "coreq": coreq,
             "description": description, "cr": cr, "faculty": faculty,
-            "dept": dept, "branch": branch, "capacity": capacity, "maximum_capacity": maximum_capacity
+            "dept": dept, "branch": branch
         })
         print("Subject updated successfully")
     except Exception as e:
@@ -81,13 +81,15 @@ def list_subjects(user):
         print(subject)
 
 
-def assign_teacher_to_subject(user): # Needs revision
+def assign_teacher_to_subject_group(user): #relocate to subject_group_management?
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject_id = input("Enter subject code: ")
     teacher_id = input("Enter teacher ID: ")
+    subject_code = input("Enter subject code: ")
+    subject_group = input("Enter subject group: ")
+    semester = input("Enter semester: ")
     try:
-        subject_service.assign_teacher(subject_id, teacher_id)
+        subject_service.assign_teacher_to_subject_group(subject_code, teacher_id, subject_group, semester)
         print("Teacher assigned to subject successfully")
     except Exception as e:
         print(f"Error assigning teacher to subject: {e}")

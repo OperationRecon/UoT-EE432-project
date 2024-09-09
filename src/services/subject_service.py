@@ -5,7 +5,7 @@ from models.subject import Subject
 def add_subject(subject_data):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO subjects (code, title, preq, coreq, description, cr, faculty, dept, branch, capacity, maximum_capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", subject_data)
+    cursor.execute("INSERT INTO subjects (code, title, preq, coreq, description, cr, faculty, dept, branch) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", subject_data)
     conn.commit()
     conn.close()
 
@@ -53,11 +53,15 @@ def get_all_subjects():
         conn.close()
 
 
-def assign_teacher(subject_id, teacher_id): # Needs revision
+def assign_teacher_to_subject_group(subject_code, teacher_id, subject_group, semester):
     conn = get_connection()
     cursor = conn.cursor()
-    update_fields = ', '.join([f"{k} = ?" for k in subject_data.keys()])
-    query = f"UPDATE subjects SET {update_fields} WHERE id = ?"
-    cursor.execute(query, list(subject_data.values()) + [subject_id])
-    conn.commit()
-    conn.close()
+    try:
+        cursor.execute('''
+            UPDATE subject_groups
+            SET teacher_id = ?
+            WHERE subject_code = ? AND subject_group = ? AND semester = ?
+        ''', (teacher_id, subject_code, subject_group, semester))
+        conn.commit()
+    finally:
+        conn.close()

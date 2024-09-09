@@ -21,8 +21,6 @@ def add_grade(user):
 
     except Exception as e:
         print(f"Error adding grade: {e}")
-    
-
 
 
 def get_grade(user):
@@ -49,6 +47,7 @@ def get_grade(user):
 
     except Exception as e:
         print(f"Error fetching grade: {e}")
+
 
 def update_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
@@ -78,25 +77,63 @@ def update_grade(user):
     except Exception as e:
         print(f"Error updating grade: {e}")
 
+
 def assign_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin, Teacher]):
         return
-    pass
+    subject = input("Enter subject code: ")
+    student = input("Enter student ID: ")
+    sem = input("Enter semester: ")
+    print("Leave field empty if you don't want to assign it.")
+    yearwork = input("Enter yearwork grades: ")
+    final = input("Enter Final Grade: ")
+
+    try:
+        grade_service.update_grade((subject, student, sem),
+                                   {'subject_code': subject, 'student_ID': student,
+                                    'semester': sem, 'yearwork': yearwork, 'final': final,})
+        print("Grade assigned successfully!")
+    except Exception as e:
+        print(f"Error assigning grade: {e}")
 
 
 def delete_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    pass
+    subject = input("Enter subject code: ")
+    student = input("Enter student ID: ")
+    sem = input("Enter semester: ")
+
+    try:
+        grade_service.delete_grade(student, subject, sem)
+        print("Grade deleted successfully!")
+    except Exception as e:
+        print(f"Error deleting grade: {e}")
 
 
 def get_subject_grades(user):
     if not utils.helpers.verify_role(type(user), [Admin, Teacher]):
         return
-    pass
+    subject = input("Enter subject code: ")
+    sem = input("Enter semester: ")
+
+    try:
+        grades = grade_service.get_subject_grades(subject, sem)
+        for grade in grades:
+            print(f"Student ID: {grade.student_id}, Yearwork: {grade.yearwork}, Final: {grade.final}")
+    except Exception as e:
+        print(f"Error fetching subject grades: {e}")
 
 
 def get_student_grades(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
-    pass
+    student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
+
+    try:
+        grades = grade_service.get_student_grades(student_id)
+        for grade in grades:
+            print(
+                f"Subject: {grade.subject_code}, Semester: {grade.semester}, Yearwork: {grade.yearwork}, Final: {grade.final}")
+    except Exception as e:
+        print(f"Error fetching student grades: {e}")

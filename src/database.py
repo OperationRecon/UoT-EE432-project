@@ -28,7 +28,8 @@ def init_db():
                 student_id INTEGER NOT NULL,
                 semester TEXT,
                 yearwork REAL,
-                final REAL)''')
+                final REAL,
+                subject_group TEXT)''')
     
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS subjects (
@@ -40,9 +41,14 @@ def init_db():
                 cr INTEGER NOT NULL,
                 faculty TEXT,
                 dept TEXT,
-                branch TEXT,
-                capacity INTEGER, 
-                maximum_capacity INTEGER)''')
+                branch TEXT)''')
+    cursor.execute('''
+            CREATE TABLE IF NOT EXISTS subject_groups (
+                subject_code TEXT NOT NULL,
+                teacher_id INTEGER,
+                subject_group TEXT NOT NULL,
+                maximum_capacity INTEGER,
+                semester TEXT NOT NULL)''')
 
     conn.commit()
     conn.close()

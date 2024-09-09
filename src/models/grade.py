@@ -6,5 +6,8 @@ class Grade:
         self.yearwork = yearwork
         self.final = final
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f'Subject: {self.subject_code}\nSemester: {self.semester}\nYearwork: {self.yearwork}\nFinal: {self.final}\nTotal: {self.yearwork+self.final}'
+
+    def __repr__(self):
+        return self.__str__()

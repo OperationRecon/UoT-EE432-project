@@ -1,6 +1,7 @@
 from commands.subject_management import *
 from commands.user_management import *
 from commands.grade_management import *
+from commands.subject_group_management import *
 from models.user import User
 
 def command_help(user):
@@ -56,18 +57,28 @@ commands = {
     "login": "",
     "help": command_help,
     "exit": "",
+
     "add subject": add_subject,
     "update subject": update_subject,
     "delete subject": delete_subject,
     "list subjects": list_subjects,
-    "assign teacher": assign_teacher_to_subject,
+
+    "add subject group": add_subject_group,
+    "update subject group": update_subject_group,
+    "delete subject group": delete_subject_group,
+
     "add grade": add_grade,
     "get grade": get_grade,
-    "add user" : add_user,
-    "delete user" : delete_user,
-    "update user" : update_user,
-    "update password"  : update_password,
-    "get user" : get_user,
-    "update grade": update_grade,
+    "update_grade": update_grade,
+    "assign_grade": assign_grade,
+    "delete_grade": delete_grade,
+    "get_subject_grades": get_subject_grades,
+    "get_student_grades": get_student_grades,
 
+    "add user": add_user,
+    "delete user": delete_user,
+    "update user": update_user,
+    "update password": update_password,
+    "get user": get_user,
+    "list users": get_all_users
 }

@@ -57,7 +57,7 @@ def update_user(user_id, user_data):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        if 'password' in user_data:
+        if user_data["password"]:
             user_data['password_hash'] = hash_password(user_data.pop('password'))
 
         update_fields = ', '.join([f"{k} = ?" for k in user_data.keys()])
@@ -85,7 +85,7 @@ def get_specific_users(enrollment_date,users_type):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        if  enrollment_date:
+        if enrollment_date:
             cursor.execute('SELECT id FROM users WHERE enrollment_date = ? AND  user_type = ?', (enrollment_date,users_type))
         else:
             cursor.execute('SELECT id FROM users WHERE enrollment_date IS NULL AND  user_type = ?', (users_type,))
@@ -94,3 +94,21 @@ def get_specific_users(enrollment_date,users_type):
         conn.close()
     return ids
 
+def get_all_users():
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('SELECT * FROM users')
+        users_data = cursor.fetchall()
+        users = []
+        for user_data in users_data:
+            if user_data[3] == 'student':
+                user = Student(user_data[0], user_data[1], user_data[2], None)  # Add enrollment_date
+            elif user_data[3] == 'teacher':
+                user = Teacher(user_data[0], user_data[1], user_data[2], None)  # Add cert
+            elif user_data[3] == 'admin':
+                user = Admin(user_data[0], user_data[1], user_data[2])
+            users.append(user)
+        return users
+    finally:
+        conn.close()

@@ -40,7 +40,7 @@ def add_user(user):
         print(f"Error adding {user_type}: {e}")
 
 
-def create_id_user(enrollment_date,user_type):
+def create_id_user(enrollment_date, user_type):
     if user_type == "student":
         year_str = str(enrollment_date)
         first_part = year_str[0] + year_str[2:]
@@ -57,9 +57,9 @@ def create_id_user(enrollment_date,user_type):
         if user_id not in existing_ids and len(set(third_part))>1:
             break
         else:
-            new_part = str((int(random_part) + 1) % 10000).zfill(4)
+            new_part = str((int(third_part) + 1) % 10000).zfill(4)
             user_id = first_part + second_part + new_part
-            if user_id not in existing_ids and len(set(third_part_part))>1:
+            if user_id not in existing_ids and len(set(third_part))>1:
                 break
 
     return user_id
@@ -89,21 +89,23 @@ def update_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     user_id = input("Enter the user ID to update: ")
-    name = input("Enter new name (leave blank to keep unchanged): ")
-    user_type = input("Enter new type (student, teacher, admin, leave blank to keep unchanged): ")
-    enrollment_date = input("Enter new enrollment date (leave blank to keep unchanged): ")
-    if user_type not in ["student", "admin", "teacher",""]:
-        print(f"Error updating user: user type is not define")
+    updated_user = user_service.get_user(user.id)
+    if not updated_user:
+        print("User not found!")
         return
-    user_data = {}
-    if name:
-        user_data['name'] = name
-    if user_type:
-        user_data['user_type'] = user_type
-    if enrollment_date:
-        user_data['enrollment_date'] = enrollment_date
+    if user_id == 1 and updated_user.id !=1:
+        print("Only Admin 1 user can update its own")
+        return
+    print("Leave field empty if you don't want to update it.")
+    password = input("Enter new Password: ")
+    name = input(f"Enter new name ({updated_user.name}): ") or updated_user.name
+    enrollment_date = input(f"Enter new enrollment date ({updated_user.enrollment_date}): ") or updated_user.enrollment_date
+    user_type = input(f"Enter new user type (student, teacher, admin) ({updated_user.type}): ") or updated_user.type
+    if user_type not in ["student", "admin", "teacher",""]:
+        print(f"Error updating user: Invalid user type")
+        return
     try:
-        user_service.update_user(user_id, user_data)
+        user_service.update_user(user_id, {"name": name, "enrollment_date": enrollment_date, "user_type": user_type})
         print(f"User with ID {user_id} updated successfully.")
     except Exception as e:
         print(f"Error updating user: {e}")
@@ -112,7 +114,7 @@ def update_user(user):
 def update_password(user):
     current_password = input("Enter your current password: ")
     user = user_service.get_user(user.id)
-    if not user or not user_service.authenticate_user(user.name, current_password):
+    if not user or not user_service.authenticate_user(user.id, current_password):
         print("Current password is incorrect.")
         return
     print("When updating your password, please ensure it meets the following criteria:\n"
@@ -121,14 +123,17 @@ def update_password(user):
             "Includes at least one digit.\n"
             "Is between 8 and 20 characters in length.")
     new_password = input("Enter new password: ")
-    if not is_strong_password(new_password):
-        print("Password is not strong enough. Please try again.")
-        return
+    while not is_strong_password(new_password):
+        print("Password is not strong enough. Please try again, or type 'back' to cancel")
+        new_password = input("Enter new password: ")
+        if new_password == "back":
+            return
     try:
         user_service.update_user(user.id, {'password': new_password})
         print(f"Password for user ID {user.id} updated successfully.")
     except Exception as e:
         print(f"Error updating password: {e}")
+
 
 def is_strong_password(password):
     if (len(password) >= 8 and len(password) <= 20 and
@@ -137,6 +142,7 @@ def is_strong_password(password):
         (any(char.isdigit() for char in password))):
         return True
     return False
+
 
 def get_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
@@ -147,9 +153,13 @@ def get_user(user):
     print(f"id : {current_user.id}")
     print(f"user type : {current_user.user_type}")
 
+
 def get_all_users(user):
-    pass
-
-
-
-
+    if not utils.helpers.verify_role(type(user), [Admin]):
+        return
+    try:
+        users = user_service.get_all_users()
+        for user in users:
+            print(f"Name: {user.name}, ID: {user.id}, Type: {user.user_type}")
+    except Exception as e:
+        print(f"Error fetching users: {e}")
