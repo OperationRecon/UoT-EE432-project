@@ -68,7 +68,7 @@ def update_grade(user):
     subject_code = input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code
     student_ID = input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id
     semester = input(f"Enter new semester ({grade.semester}): ") or grade.semester
-    subject_group = input(f"Enter new group ({grade.group}): ") or grade.group
+    subject_group = input(f"Enter new group ({grade.subject_group}): ") or grade.subject_group
     yearwork = input(f"Enter new yearwork grade ({grade.yearwork}): ") or grade.yearwork
     final = input(f"Enter new final exam grade ({grade.final}): ") or grade.final
     try:
