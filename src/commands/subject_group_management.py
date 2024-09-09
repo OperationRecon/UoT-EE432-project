@@ -13,7 +13,7 @@ def add_subject_group(user):
     semester = input("Enter semester (e.g SPRING-2024): ")
     teacher_id = input("Enter teacher ID: ")
     try:
-        subject_group_service.add_subject_group((subject_code, teacher_id, subject_group, maximum_capacity, semester))
+        subject_group_service.add_subject_group((subject_code, teacher_id, subject_group, maximum_capacity, semester, 0))
         print("Subject Group added successfully")
     except Exception as e:
         print(f"Error adding subject group: {e}")
@@ -36,9 +36,7 @@ def update_subject_group(user):
 
     try:
         subject_group_service.update_subject_group(subject_code, subject_group_number, semester, {
-            "subject_code": subject_code, "subject_group": subject_group_number, "maximum_capacity": maximum_capacity,
-            "semester": semester, "teacher_id": teacher_id
-        })
+            "maximum_capacity": maximum_capacity, "teacher_id": teacher_id})
         print("Subject Group updated successfully")
     except Exception as e:
         print(f"Error updating subject group: {e}")
@@ -59,6 +57,7 @@ def delete_subject_group(user):
         print("Subject Group deleted successfully")
     except Exception as e:
         print(f"Error deleting subject group: {e}")
+
 
 def get_all_subject_groups(subject_code):
     pass
