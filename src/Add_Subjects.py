@@ -103,23 +103,3 @@ cursor.executemany('''
 
 conn.commit()
 conn.close()
-
-
-import sqlite3
-
-# Connect to SQLite database
-conn = sqlite3.connect(r'..\data\university.db')
-cursor = conn.cursor()
-
-# Query to select all records from the subjects table
-cursor.execute('SELECT * FROM subjects')
-
-# Fetch all results
-rows = cursor.fetchall()
-
-# Print the results
-for row in rows:
-    print(row)
-
-# Close the connection
-conn.close()
