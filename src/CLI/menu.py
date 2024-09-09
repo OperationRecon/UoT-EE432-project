@@ -1,3 +1,4 @@
+from commands.enrollment_management import *
 from commands.subject_management import *
 from commands.user_management import *
 from commands.grade_management import *
@@ -72,13 +73,16 @@ commands = {
     "update_grade": update_grade,
     "assign_grade": assign_grade,
     "delete_grade": delete_grade,
-    "get_subject_grades": get_subject_grades,
-    "get_student_grades": get_student_grades,
+    "get subject grades": get_subject_grades,
+    "get student grades": get_student_grades,
 
     "add user": add_user,
     "delete user": delete_user,
     "update user": update_user,
     "update password": update_password,
     "get user": get_user,
-    "list users": get_all_users
+    "list users": get_all_users,
+
+    "force enroll": force_enroll,
+    "drop out": drop_out,
 }
