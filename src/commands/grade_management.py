@@ -53,7 +53,30 @@ def get_grade(user):
 def update_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    pass
+    
+    subject = input("Enter subject code: ")
+    sID = input("Enter student ID: ")
+    sem = input("Enter semester: ")
+
+    grade = grade_service.get_grade(sID,subject,sem)
+    if not grade:
+        print("Grade not found.")
+        return
+
+    print("Leave field empty if you don't want to update it.")
+    subject_code = input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code
+    student_ID = input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id
+    semester = input(f"Enter new semester ({grade.semester}): ") or grade.semester
+    yearwork = input(f"Enter new yearwork grade ({grade.yearwork}): ") or grade.yearwork
+    final = input(f"Enter new final exam grade ({grade.final}): ") or grade.final
+    try:
+        grade_service.update_grade((subject,sID,sem),
+                                    {'subject_code':subject_code, 'student_ID':student_ID,
+                                    'semester':semester,'yearwork':yearwork,'final':final,})
+
+        print("Grade updated successfully")
+    except Exception as e:
+        print(f"Error updating grade: {e}")
 
 def assign_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin, Teacher]):

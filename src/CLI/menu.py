@@ -63,5 +63,6 @@ commands = {
     "assign teacher": assign_teacher_to_subject,
     "add grade": add_grade,
     "get grade": get_grade,
-    
+    "update grade": update_grade,
+
 }
