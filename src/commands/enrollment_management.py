@@ -53,6 +53,15 @@ def drop_out(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
     #calls delete grade
+    subject = input("Enter subject code: ")
+    student = input("Enter student ID: ")
+    sem = input("Enter semester: ")
+
+    try:
+        grade_service.delete_grade(student, subject, sem)
+        print("Student dropped out successfully!")
+    except Exception as e:
+        print(f"Error dropping student out: {e}")
     pass
 
 
@@ -60,4 +69,15 @@ def force_enroll(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     # calls add grade with none without check
-    pass
+    subject = input("Enter subject code: ")
+    student = input("Enter student ID: ")
+    sem = input("Enter semester: ")
+
+    
+    try:
+        grade_service.add_grade((subject,student,sem,0,0))
+        print("Student Enrolled successully!")
+
+    except Exception as e:
+        print(f"Error enrolling student: {e}")
+
