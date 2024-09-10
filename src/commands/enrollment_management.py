@@ -96,14 +96,14 @@ def show_available_subject_groups(available_groups):
 
 
 def force_drop_out(user):
-    if not utils.helpers.verify_role(type(user), [Admin, Student]):
+    if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject = input("Enter subject code: ")
     student = input("Enter student ID: ")
     sem = enrollment_service.get_current_semester()
 
     try:
-        grade_service.delete_grade(student, subject, sem)
+        grade_service.delete_grade( subject,student, sem)
         print("Student dropped out successfully!")
     except Exception as e:
         print(f"Error dropping student out: {e}")
