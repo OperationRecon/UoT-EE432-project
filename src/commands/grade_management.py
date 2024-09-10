@@ -1,5 +1,5 @@
 import utils.helpers
-from services import grade_service, user_service
+from services import grade_service, user_service, subject_group_service
 from models.admin import Admin
 from models.teacher import Teacher
 from models.student import Student
@@ -8,19 +8,15 @@ from models.student import Student
 def add_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject = input("Enter subject code: ")
+    subject_code = input("Enter subject code: ")
     student = input("Enter student ID: ")
     group = input('Enter student\'s group: ')
     sem = input("Enter semester: ")
     yearwork = input("Enter yearwork grades: ")
     final = input("Enter Final Grade: ")
-    
-
-    
     try:
-        grade_service.add_grade((subject,student,sem,yearwork,final,group))
+        grade_service.add_grade((subject_code, student, sem, yearwork, final, group))
         print("Grade Added successully!")
-
     except Exception as e:
         print(f"Error adding grade: {e}")
 
@@ -76,7 +72,9 @@ def update_grade(user):
                                     {'subject_code':subject_code, 'student_ID':student_ID,
                                     'semester':semester,'yearwork':yearwork,'final':final,
                                     "subject_group": subject_group})
-
+        if grade.subject_group != subject_group:
+            update_capacity(subject_code, student_ID, semester, -1, group=grade.subject_group)
+            update_capacity(subject_code, student_ID, semester, +1, group=subject_group)
         print("Grade updated successfully")
     except Exception as e:
         print(f"Error updating grade: {e}")
@@ -128,7 +126,7 @@ def get_subject_grades(user):
         grades = grade_service.get_subject_grades(subject, sem, subject_group)
         for grade in grades:
             student = user_service.get_user(grade.student_id)
-            print(f'\nStudent: {student.name}\nID: {student.id}\n{grade}\n')
+            print(f'Student: {student.name} ID: {student.id} {grade}\n')
     except Exception as e:
         print(f"Error fetching subject grades: {e}")
 
@@ -144,6 +142,11 @@ def get_student_grades(user):
             print(f'\n{grade}\n')
     except Exception as e:
         print(f"Error fetching student grades: {e}")
+
+
+def update_capacity(subject_code, student_id, semester, diff, group):
+    capacity = int(subject_group_service.get_subject_group(subject_code, group, semester).capacity)
+    subject_group_service.update_subject_group(subject_code, group, semester, {"capacity": capacity + diff})
 
 
 def show_semester(user):

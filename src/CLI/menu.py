@@ -7,6 +7,8 @@ from models.user import User
 from models.admin import Admin
 from models.student import Student
 from models.teacher import Teacher
+import services.enrollment_service as enrollment_service
+
 
 def command_help(user):
     for i in commands.keys():
@@ -20,6 +22,11 @@ def command_help(user):
 def display_main_menu():
     print("\nUniversity Administration System")
     print("Login by entering 'login' or close using 'exit'.")
+    current_semester = enrollment_service.get_current_semester()
+    if not current_semester:
+        print("The semester hasn't started yet.")
+    else:
+        print(f"Current semester is: {current_semester}")
 
 
 def display_user_menu(user):
@@ -74,9 +81,9 @@ commands = {
 
     "add grade": (add_grade,Admin),
     "get grade": (get_grade,Admin),
-    "update_grade": (update_grade,Admin),
-    "assign_grade": (assign_grade,(Admin,Teacher)),
-    "delete_grade": (delete_grade,Admin),
+    "update grade": (update_grade,Admin),
+    "assign grade": (assign_grade,(Admin,Teacher)),
+    "delete grade": (delete_grade,Admin),
     "get subject grades": (get_subject_grades,(Admin,Teacher)),
     "get student grades": (get_student_grades,(Admin,Student)),
 

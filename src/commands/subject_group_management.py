@@ -59,5 +59,5 @@ def delete_subject_group(user):
         print(f"Error deleting subject group: {e}")
 
 
-def get_all_subject_groups(subject_code):
+def list_subject_groups(subject_code):
     pass

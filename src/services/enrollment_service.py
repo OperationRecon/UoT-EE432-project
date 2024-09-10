@@ -21,6 +21,7 @@ def get_current_semester():
     finally:
         conn.close()
 
+
 def check_coreq_to_drop_out(student_id,subject_code):
     conn = get_connection()
     cursor = conn.cursor()
@@ -44,6 +45,7 @@ def check_coreq_to_drop_out(student_id,subject_code):
 
     finally:
         conn.close()
+
 
 def get_current_units(student_id):
     conn = get_connection()

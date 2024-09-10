@@ -1,16 +1,16 @@
 from database import get_connection
 from models.grade import Grade
+from commands.grade_management import update_capacity
 
 
 def add_grade(grade_data):
     conn = get_connection()
     cursor = conn.cursor()
-
     try:
         cursor.execute('''INSERT INTO grades (subject_code, student_id, semester, yearwork, final, subject_group) 
                        VALUES (?, ?, ?, ?, ?, ?)''', grade_data)
         conn.commit()
-
+        update_capacity(grade_data[0], grade_data[1], grade_data[2], 1, grade_data[5])
     finally:
         conn.close()
 
@@ -51,11 +51,13 @@ def delete_grade(subject_code, student_id, semester):
     conn = get_connection()
     cursor = conn.cursor()
     try:
+        group = get_grade(student_id, subject_code, semester).subject_group
         cursor.execute('''
             DELETE FROM grades
             WHERE subject_code = ? AND student_id = ? AND semester = ?
         ''', (subject_code, student_id, semester,))
         conn.commit()
+        update_capacity(subject_code, student_id, semester, -1, group)
     finally:
         conn.close()
 
