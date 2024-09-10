@@ -86,6 +86,7 @@ commands = {
     "delete grade": (delete_grade,Admin),
     "get subject grades": (get_subject_grades,(Admin,Teacher)),
     "get student grades": (get_student_grades,(Admin,Student)),
+    "show semester" : (show_semester,(Admin,Student)),
 
     "add user": (add_user,Admin),
     "delete user": (delete_user,Admin),

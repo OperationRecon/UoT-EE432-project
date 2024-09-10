@@ -74,7 +74,7 @@ def show_available_subject_groups(available_groups):
 
 
 def force_drop_out(user):
-    if not utils.helpers.verify_role(type(user), [Admin, Student]):
+    if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject_code = input("Enter subject code: ")
     student = input("Enter student ID: ")
@@ -97,13 +97,14 @@ def drop_out(user):
     subject = subject_service.get_subject(subject_code)
     grade = grade_service.get_grade(student,subject_code,sem)
     if coreq:
-        print(f"you have to drop enrolled {subject_code}'s co-requisites {coreq}")
+        print(f"you have to drop enrolled corequisty subject")
         return
     if enrollment_service.get_current_units(student) - subject.cr < 12:
         print("This subject will not be deleted for not reaching less than the minimum number of units.")
         return
     try:
         grade_service.delete_grade(subject_code, student, sem, grade.subject_group)
+        #grade_service.delete_grade(subject_code,student,  sem)
         print("Student dropped out successfully!")
     except Exception as e:
         print(f"Error dropping student out: {e}")

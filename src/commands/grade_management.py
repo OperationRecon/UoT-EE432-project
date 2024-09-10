@@ -1,5 +1,5 @@
 import utils.helpers
-from services import grade_service, user_service, subject_group_service
+from services import grade_service, user_service, subject_group_service, enrollment_service
 from models.admin import Admin
 from models.teacher import Teacher
 from models.student import Student
@@ -140,14 +140,26 @@ def get_student_grades(user):
         grades = grade_service.get_student_grades(student_id)
         for grade in grades:
             print(f'\n{grade}\n')
+        print(f"The total passed units : {enrollment_service.get_all_passed_units(student_id)}")
     except Exception as e:
         print(f"Error fetching student grades: {e}")
+
+
+def show_semester(user):
+    if not utils.helpers.verify_role(type(user), [Admin, Student]):
+        return
+    student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
+    semester = input("Enter semester: ")
+
+    try:
+        grades = grade_service.get_semester(student_id,semester)
+        for grade in grades:
+            print(f'\n{grade}\n')
+    except Exception as e:
+        print(f"Error fetching student grades: {e}")
+    pass
 
 
 def update_capacity(subject_code, student_id, semester, diff, group):
     capacity = int(subject_group_service.get_subject_group(subject_code, group, semester).capacity)
     subject_group_service.update_subject_group(subject_code, group, semester, {"capacity": capacity + diff})
-
-
-def show_semester(user):
-    pass
