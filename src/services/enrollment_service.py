@@ -52,12 +52,31 @@ def get_current_units(student_id):
         cursor.execute('''
                 SELECT subject_code FROM grades 
                 WHERE student_id = ? AND 
-                (yearwork  IS NULL OR final IS NULL) 
+                (yearwork  ="" OR final IS NULL) 
                 ''', (student_id,))
         subject = [i[0] for i in cursor.fetchall()]
         units = 0
         for i in subject:
             cursor.execute('SELECT cr FROM subjects WHERE code = ? ', (i,))
+            units += int(cursor.fetchone()[0])
+        return units
+    finally:
+        conn.close()
+
+def get_all_passed_units(student_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+                SELECT subject_code FROM grades 
+                WHERE student_id = ? AND 
+                (yearwork + final >= 50) 
+                ''', (student_id,))
+        subject = [i[0] for i in cursor.fetchall()]
+        units = 0
+        for i in subject:
+            cursor.execute('SELECT cr FROM subjects WHERE code = ? ', (i,))
+            cursor.fetchone()[0]
             units += int(cursor.fetchone()[0])
         return units
     finally:
