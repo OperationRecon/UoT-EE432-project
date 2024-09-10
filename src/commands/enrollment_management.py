@@ -95,7 +95,6 @@ def drop_out(user):
     sem = enrollment_service.get_current_semester()
     coreq = enrollment_service.check_coreq_to_drop_out(student,subject_code)
     subject = subject_service.get_subject(subject_code)
-    grade = grade_service.get_grade(student,subject_code,sem)
     if coreq:
         print(f"you have to drop enrolled corequisty subject")
         return
@@ -103,8 +102,7 @@ def drop_out(user):
         print("This subject will not be deleted for not reaching less than the minimum number of units.")
         return
     try:
-        grade_service.delete_grade(subject_code, student, sem, grade.subject_group)
-        #grade_service.delete_grade(subject_code,student,  sem)
+        grade_service.delete_grade(subject_code, student,  sem)
         print("Student dropped out successfully!")
     except Exception as e:
         print(f"Error dropping student out: {e}")

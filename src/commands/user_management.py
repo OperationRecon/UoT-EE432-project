@@ -3,6 +3,7 @@ import utils.helpers
 from models.student import Student
 from models.teacher import Teacher
 from models.admin import Admin
+import utils.validation
 import random
 
 
@@ -97,17 +98,17 @@ def delete_user(user):
         return
     user_id = input("Enter the user ID to delete: ")
     selected_user = user_service.get_user(user_id)
+    if not selected_user:
+        print(f"User with id: {user_id} doesn't exist")
+        return
     if utils.helpers.verify_role(type(selected_user), [Admin]):
-        num_users = len(user_service.get_specific_users(None,'admin'))
+        num_users = len(user_service.get_specific_users(None, 'admin'))
         if num_users <= 1:
             print("Cannot delete the last admin.")
             return False
     try:
-        deleted_user = user_service.delete_user(user_id)
-        if deleted_user:
-            print(f"The user {deleted_user.name} with ID {user_id} deleted successfully.")
-        else:
-            print(f"{user_id} id not exist")
+        user_service.delete_user(user_id)
+        print(f"The user {selected_user.name} with ID {user_id} deleted successfully.")
     except Exception as e:
         print(f"Error deleting user: {e}")
 
@@ -118,7 +119,7 @@ def update_user(user):
     user_id = input("Enter the user ID to update: ")
     updated_user = user_service.get_user(user_id)
     if not updated_user:
-        print("User not found!")
+        print(f"User with id: {user_id} doesn't exist")
         return
     if user_id == 1 and updated_user.id !=1:
         print("Only Admin 1 user can update its own")

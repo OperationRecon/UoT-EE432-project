@@ -74,12 +74,8 @@ def delete_user(user_id):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        deleted_user = get_user(user_id)
-        if not deleted_user:
-            return None
         cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
         conn.commit()
-        return deleted_user
     finally:
         conn.close()
 

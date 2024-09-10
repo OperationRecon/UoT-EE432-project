@@ -1,5 +1,5 @@
 import utils.helpers
-from services import grade_service, user_service, subject_group_service, enrollment_service
+from services import grade_service, user_service, subject_group_service, enrollment_service, subject_service
 from models.admin import Admin
 from models.teacher import Teacher
 from models.student import Student
@@ -9,9 +9,18 @@ def add_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject_code = input("Enter subject code: ")
+    if not subject_service.get_subject(subject_code):
+        print(f"Subject with code: {subject_code} doesn't exist")
+        return
     student = input("Enter student ID: ")
-    group = input('Enter student\'s group: ')
+    if not user_service.get_user(student):
+        print(f"User with id: {student} doesn't exist")
+        return
     sem = input("Enter semester: ")
+    group = input('Enter student\'s group: ')
+    if not subject_group_service.get_subject_group(subject_code, group, sem):
+        print(f"Subject with code: {subject_code} doesn't exist")
+        return
     yearwork = input("Enter yearwork grades: ")
     final = input("Enter Final Grade: ")
     try:
@@ -62,9 +71,18 @@ def update_grade(user):
 
     print("Leave field empty if you don't want to update it.")
     subject_code = input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code
+    if not subject_service.get_subject(subject_code):
+        print(f"Subject with code: {subject_code} doesn't exist")
+        return
     student_ID = input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id
+    if not user_service.get_user(student_ID):
+        print(f"User with id: {student_ID} doesn't exist")
+        return
     semester = input(f"Enter new semester ({grade.semester}): ") or grade.semester
     subject_group = input(f"Enter new group ({grade.subject_group}): ") or grade.subject_group
+    if not subject_group_service.get_subject_group(subject_code, subject_group, sem):
+        print(f"Subject with code: {subject_code} doesn't exist")
+        return
     yearwork = input(f"Enter new yearwork grade ({grade.yearwork}): ") or grade.yearwork
     final = input(f"Enter new final exam grade ({grade.final}): ") or grade.final
     try:
@@ -84,7 +102,13 @@ def assign_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin, Teacher]):
         return
     subject = input("Enter subject code: ")
+    if not subject_service.get_subject(subject):
+        print(f"Subject with code: {subject} doesn't exist")
+        return
     student = input("Enter student ID: ")
+    if not user_service.get_user(student):
+        print(f"User with id: {student} doesn't exist")
+        return
     sem = input("Enter semester: ")
     print("Leave field empty if you don't want to assign it.")
     yearwork = input("Enter yearwork grades: ")
@@ -105,7 +129,13 @@ def delete_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject = input("Enter subject code: ")
+    if not subject_service.get_subject(subject):
+        print(f"Subject with code: {subject} doesn't exist")
+        return
     student = input("Enter student ID: ")
+    if not user_service.get_user(student):
+        print(f"User with id: {student} doesn't exist")
+        return
     sem = input("Enter semester: ")
 
     try:
