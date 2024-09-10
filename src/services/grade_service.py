@@ -47,14 +47,14 @@ def update_grade(grade_identifiers, grade_data):
         conn.close()
 
 
-def delete_grade(subject_code, student_id, semester, subject_group):
+def delete_grade(subject_code, student_id, semester):
     conn = get_connection()
     cursor = conn.cursor()
     try:
         cursor.execute('''
             DELETE FROM grades
-            WHERE subject_code = ? AND student_id = ? AND semester = ? AND subject_group = ?
-        ''', (subject_code, student_id, semester, subject_group))
+            WHERE subject_code = ? AND student_id = ? AND semester = ?
+        ''', (subject_code, student_id, semester,))
         conn.commit()
     finally:
         conn.close()

@@ -71,5 +71,17 @@ def get_available_seats(subject_code, subject_group, semester): # revision
         conn.close()
 
 def get_available_subject_groups(subject):
-    # return [sg for sg in subject_groups if int(sg.capacity) < int(sg.maximum_capacity)]
-    pass
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            SELECT * FROM subject_groups
+            WHERE subject_code = ? AND semester IN (SELECT * FROM current_semester) AND maximum_capacity > capacity
+        ''', (subject,))
+
+        data = cursor.fetchall()
+        return [SubjectGroup(*group) for group in data] if data else None
+
+    finally:
+        conn.close()
+    
