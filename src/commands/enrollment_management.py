@@ -4,6 +4,7 @@ import utils.helpers
 from services import subject_service, subject_group_service, grade_service, enrollment_service
 
 
+
 def enroll(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
@@ -75,6 +76,26 @@ def force_drop_out(user):
 def drop_out(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
+    subject_code = input("Enter subject code: ")
+    student = user.id if isinstance(user, Student) else input("Enter student ID: ")
+    sem = enrollment_service.get_current_semester()
+    coreq = enrollment_service.check_coreq_to_drop_out(student,subject_code)
+    subject = subject_service.get_subject(subject_code)
+    grade = grade_service.get_grade(student,subject_code,sem)
+    if coreq:
+        print(f"you have to drop enrolled {subject_code}'s co requisty {coreq}")
+        return
+    if enrollment_service.get_current_units(student) - subject.cr < 12:
+        print("This subject will not be deleted for not reaching less than the minimum number of units.")
+        return
+    try:
+        grade_service.delete_grade(subject_code,student,  sem,grade.subject_group)
+        print("Student dropped out successfully!")
+    except Exception as e:
+        print(f"Error dropping student out: {e}")
+    pass
+
+
 
 
 def force_enroll(user):
