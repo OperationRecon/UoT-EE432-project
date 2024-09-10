@@ -171,6 +171,7 @@ def get_student_grades(user):
         for grade in grades:
             print(f'\n{grade}\n')
         print(f"The total passed units : {enrollment_service.get_all_passed_units(student_id)}")
+        print(f"The academic percentage : {get_academic_percentage(student_id)}")
     except Exception as e:
         print(f"Error fetching student grades: {e}")
 
@@ -193,3 +194,14 @@ def show_semester(user):
 def update_capacity(subject_code, student_id, semester, diff, group):
     capacity = int(subject_group_service.get_subject_group(subject_code, group, semester).capacity)
     subject_group_service.update_subject_group(subject_code, group, semester, {"capacity": capacity + diff})
+
+def get_academic_percentage(student_id):
+    grades = grade_service.get_student_grades(student_id)
+    total_grade = 0
+    student_grade = 0
+    for grade in grades:
+        subject = subject_service.get_subject(grade.subject_code)
+        student_grade += int(subject.cr) * (int(grade.yearwork) + int(grade.final))
+        total_grade += int(subject.cr) * 100
+
+    return (student_grade/total_grade) * 100
