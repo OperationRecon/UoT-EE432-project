@@ -80,7 +80,7 @@ def get_available_subjects(student_id):
         
         potential = cursor.fetchall()
 
-        # Get subjects whose prequesites and corequisites are satisfied
+        # Get subjects whose prequesites and corequisites are satisfied and have
         available_subjects = [subject[0] for subject in potential if all(item in passed for item in subject[1].split()) and all(item in current for item in subject[2].split())]
 
         return available_subjects

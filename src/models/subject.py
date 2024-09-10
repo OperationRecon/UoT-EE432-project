@@ -13,7 +13,7 @@ class Subject:
 
 
     def __str__(self):
-        return f"Code: {self.code}, Title: {self.title}, Credits: {str(self.cr)}"
+        return f"Code: {self.code}. Title: {self.title}. Credits: {str(self.cr)}. Prequesites: {self.preq}.  Corequesites: {self.coreq}.  Faculty: {self.faculty}.  Department: {self.dept}.  Branch: {self.branch}.  Description: {self.description}"
 
     def __repr__(self):
         return self.__str__()
