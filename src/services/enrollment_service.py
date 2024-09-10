@@ -27,7 +27,7 @@ def check_coreq_to_drop_out(student_id,subject_code):
     try:
         cursor.execute('''
                        SELECT subject_code FROM grades
-                       WHERE (yearwork IS NULL OR final IS NULL)
+                       WHERE (yearwork = IS NULL OR final IS NULL)
                        AND student_id = ?
                        ''',(student_id,))
         student_subject = [i[0] for i in cursor.fetchall()]
@@ -52,7 +52,7 @@ def get_current_units(student_id):
         cursor.execute('''
                 SELECT subject_code FROM grades 
                 WHERE student_id = ? AND 
-                (yearwork  ="" OR final IS NULL) 
+                (yearwork  = IS NULL OR final IS NULL) 
                 ''', (student_id,))
         subject = [i[0] for i in cursor.fetchall()]
         units = 0
@@ -76,7 +76,6 @@ def get_all_passed_units(student_id):
         units = 0
         for i in subject:
             cursor.execute('SELECT cr FROM subjects WHERE code = ? ', (i,))
-            cursor.fetchone()[0]
             units += int(cursor.fetchone()[0])
         return units
     finally:
