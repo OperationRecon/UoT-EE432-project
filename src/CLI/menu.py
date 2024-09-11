@@ -86,7 +86,7 @@ commands = {
     "delete grade": (delete_grade,Admin),
     "get subject grades": (get_subject_grades,(Admin,Teacher)),
     "get student grades": (get_student_grades,(Admin,Student)),
-    "show semester" : (show_semester,(Admin,Student)),
+    "show semester" : (show_semester_grades,(Admin,Student)),
 
     "add user": (add_user,Admin),
     "delete user": (delete_user,Admin),
@@ -98,7 +98,7 @@ commands = {
     "force enroll": (force_enroll,Admin),
     "drop out": (drop_out,(Student,Admin)),
     "force drop out" : (force_drop_out,(Admin)),
-    "Enroll": (enroll,(Admin,Student)),
+    "enroll": (enroll,(Admin,Student)),
 
     "set current semester": (set_current_semester,Admin),
     "get current semester": (get_current_semester,(Admin,Student,Teacher))

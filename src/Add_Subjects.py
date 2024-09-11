@@ -1,5 +1,7 @@
 import sqlite3
-conn = sqlite3.connect(r'..\data\university.db')
+from sys_env import DATABASE_NAME
+
+conn = sqlite3.connect(DATABASE_NAME)
 cursor = conn.cursor()
 
 data = [

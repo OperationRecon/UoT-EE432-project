@@ -43,10 +43,24 @@ def validate_subject(subject_code):
     return subject_code
 
 
-def validate_subject_group(grade_data):
-    if not subject_group_service.get_subject_group(subject_code, subject_group, semester):
-        print(f"Subject with code: {subject_code} doesn't exist")
-        return
+def validate_subject_group(subject_code, subject_group_number, semester):
+    while True:
+        if subject_group_number == "exit":
+            return
+
+        try:
+            subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, semester)
+            if not subject_group:
+                print("Subject group not found. Enter another subject group or exit with 'exit'.")
+                subject_group_number = input()
+                continue
+
+        except Exception as e:
+            print(f"Error fetching group: {e}")
+            return
+        break
+
+    return subject_group.subject_group
 
 def Check_ID_standers(id,type):
     if type == "student":
