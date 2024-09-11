@@ -5,6 +5,7 @@ from models.teacher import Teacher
 from models.admin import Admin
 import utils.validation
 import random
+from utils.validation import *
 
 
 
@@ -25,30 +26,47 @@ def add_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     name = input("Enter user's name: ")
-    user_type = input("Enter user's type (student or teacher or admin) : ")
-    if user_type not in ["student","admin","teacher"]:
-        print(f"Error adding user: user type is not define")
-        return
+    user_type = input("Enter user's type (student or teacher or admin): ")
+    while user_type not in ["student","admin","teacher"]:
+        if user_type == "exit":
+            return
+        print(f"User type is not define. Enter another user type or exit with 'exit'.")
+        user_type = input("Enter user's type (student or teacher or admin): ")
+        continue
     if user_type == "student":
-        enrollment_date = input("Enter user's enrollment_date (year) : ")
+        enrollment_date = input("Enter user's enrollment_date (year): ")
     else:
         enrollment_date = None
-    has_id = input("Does the user have an ID? (Y/N)")
-    if has_id == "Y":
-        existing_ids = [str(i[0]) for i in user_service.get_specific_users(enrollment_date, user_type)]
-        while True:
-            id = input("Enter user's ID : ")
-            if id in existing_ids:
-                print("The entry ID you provided is already in use.")
-                has_id = input("Do you want to enter a different ID (Y/N)")
-                if has_id == "Y":
-                    continue
-                else:
-                    id = create_id_user(enrollment_date, user_type)
-                    break
+    while True:
+        has_id = input("Does the user have an ID?,if (N) A number will be generated automatically (Y/N)")
+        if has_id in ["Y","N"]:
             break
-    else:
+    existing_ids = [str(i[0]) for i in user_service.get_specific_users(enrollment_date, user_type)]
+    while has_id == "Y":
+        id = input("Enter user's ID: ")
+        if not Check_ID_standers(id,user_type):
+            while True:
+                has_id = input("Do you want to enter a different ID? (Y/N):")
+                if has_id in ["Y", "N","exit"]:
+                    break
+            continue
+        if id in existing_ids:
+            print("The entry ID you provided is already in use. Enter exit to 'exit'.")
+            while True:
+                has_id = input("Do you want to enter a different ID? (Y/N):")
+                if has_id in ["Y", "N", "exit"]:
+                    break
+            continue
+        if has_id == "N":
+            break
+        if has_id == "exit":
+            return
+        break
+
+    if has_id == "N":
         id = create_id_user(enrollment_date, user_type)
+
+
     try:
         user_id = user_service.add_user([name,id,user_type,id,enrollment_date])
         print(f"The {user_type} added successfully, user's id : {user_id}")
@@ -194,3 +212,6 @@ def get_all_users(user):
             print(f"Name: {user.name}, ID: {user.id}, Type: {user.user_type}")
     except Exception as e:
         print(f"Error fetching users: {e}")
+
+def Check_ID_validation(id):
+    pass
