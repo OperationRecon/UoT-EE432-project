@@ -3,28 +3,45 @@ from services import grade_service, user_service, subject_group_service, enrollm
 from models.admin import Admin
 from models.teacher import Teacher
 from models.student import Student
+from utils.validation import *
 
 
 def add_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject_code = input("Enter subject code: ")
-    if not subject_service.get_subject(subject_code):
-        print(f"Subject with code: {subject_code} doesn't exist")
-        return
     student = input("Enter student ID: ")
-    if not user_service.get_user(student):
-        print(f"User with id: {student} doesn't exist")
+    student = validate_student_data(student)
+    if not student:
         return
-    sem = input("Enter semester: ")
-    group = input('Enter student\'s group: ')
-    if not subject_group_service.get_subject_group(subject_code, group, sem):
-        print(f"Subject with code: {subject_code} doesn't exist")
+    subject_code = input("Enter subject code: ")
+    subject_code = validate_subject(subject_code)
+    if not subject_code:
         return
+    while True:
+        sem = input("Enter semester: ")
+        current_grades = grade_service.get_semester(student, sem)
+        current_subjects = [i.subject_code for i in current_grades]
+        if subject_code in current_subjects:
+            print(f"{subject_code} has been added in {sem} Enter another subject or exit with 'exit'." )
+            continue
+        break
+
+    while True:
+        subject_group_number = input("Enter subject group: ")
+        if subject_group_number == "exit":
+            return
+        try:
+            subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, sem)
+            if not subject_group:
+                print("Subject group not found. Enter another subject group or exit with 'exit'.")
+                continue
+        except Exception as e:
+            print(f"Error enrolling: {e}")
+        break
     yearwork = input("Enter yearwork grades: ")
     final = input("Enter Final Grade: ")
     try:
-        grade_service.add_grade((subject_code, student, sem, yearwork, final, group))
+        grade_service.add_grade((subject_code, student, sem, yearwork, final, subject_group_number))
         print("Grade Added successully!")
     except Exception as e:
         print(f"Error adding grade: {e}")
@@ -33,23 +50,22 @@ def add_grade(user):
 def get_grade(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject = input("Enter subject code: ")
     studentID = input("Enter student ID: ")
+    studentID = validate_student_data(studentID)
+    if not studentID:
+        return
+    subject_code = input("Enter subject code: ")
+    subject_code = validate_subject(subject_code)
+    if not subject_code:
+        return
     sem = input("Enter semester: ")
     try:
-        student = user_service.get_user(studentID)
-        if not student:
-            print("Error: Student doesn't exist!")
-            return
-    except Exception as e:
-        print(f'Error fetching student data: {e}')
-    try:
-        grade = grade_service.get_grade(studentID,subject,sem)
+        grade = grade_service.get_grade(studentID,subject_code,sem)
 
         if not grade:
             print('No grade to find!')
             return
-        
+        student = user_service.get_user(studentID)
         print(f'Student: {student.name}\nID: {student.id}\n{grade}')
 
     except Exception as e:
