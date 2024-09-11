@@ -2,6 +2,7 @@ from models.admin import Admin
 import utils.helpers
 from services import subject_service
 from models.subject import Subject
+from utils.validation import *
 
 
 def add_subject(user):
@@ -28,9 +29,8 @@ def delete_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject_code = input("Enter subject code to delete: ")
-    subject = subject_service.get_subject(subject_code)
-    if not subject:
-        print("Subject not found.")
+    subject_code = validate_subject(subject_code)
+    if not subject_code:
         return
     try:
         subject_service.delete_subject(subject_code)
@@ -43,10 +43,10 @@ def update_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     subject_code = input("Enter subject code to update: ")
-    subject = subject_service.get_subject(subject_code)
-    if not subject:
-        print("Subject not found.")
+    subject_code = validate_subject(subject_code)
+    if not subject_code:
         return
+    subject = subject_service.get_subject(subject_code)
 
     print("Leave field empty if you don't want to update it.")
     code = input(f"Enter new code ({subject.code}): ") or subject.code
