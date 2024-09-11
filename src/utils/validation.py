@@ -47,3 +47,23 @@ def validate_subject_group(grade_data):
     if not subject_group_service.get_subject_group(subject_code, subject_group, semester):
         print(f"Subject with code: {subject_code} doesn't exist")
         return
+
+def Check_ID_standers(id,type):
+    if type == "student":
+        if len(id) != 10 or not id.isdigit():
+            print(f"{id} not match with student ID")
+            print("The ID must contain 10 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    elif type == "teacher":
+        if len(id) != 12 or not id.isdigit():
+            print(f"{id} not match with teacher ID")
+            print("The ID must contain 12 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    elif type == "admin":
+        if len(id) > 8 or not id.isdigit():
+            print(f"{id} not match with admin ID")
+            print("The ID must contain less than 8 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    else:
+        return False
+    return True
