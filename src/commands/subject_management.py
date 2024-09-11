@@ -8,6 +8,7 @@ from utils.validation import *
 def add_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return 
+    
     code = input("Enter subject's code: ")
     title = input("Enter subject's title: ")
     preq = input("Enter subject's prerequisites (space separated): ") #.split() ???
@@ -46,6 +47,7 @@ def update_subject(user):
     subject_code = validate_subject(subject_code)
     if not subject_code:
         return
+    
     subject = subject_service.get_subject(subject_code)
 
     print("Leave field empty if you don't want to update it.")
