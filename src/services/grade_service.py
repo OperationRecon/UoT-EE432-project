@@ -92,7 +92,8 @@ def get_student_grades(student_id):
         conn.close()
 
 
-def get_semester(student_id, semester):
+def get_semester_grades(student_id, semester):
+    # Fetches the frades of the student in the given semseter
     conn = get_connection()
     cursor = conn.cursor()
     try:
