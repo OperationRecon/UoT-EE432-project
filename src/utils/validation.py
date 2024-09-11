@@ -52,7 +52,7 @@ def validate_subject_group(subject_code, subject_group_number, semester):
             subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, semester)
             if not subject_group:
                 print("Subject group not found. Enter another subject group or exit with 'exit'.")
-                subject_group_number = input()
+                subject_group_number = input("Enter subject group: ")
                 continue
 
         except Exception as e:
