@@ -116,6 +116,19 @@ def validate_user_type():
     return user_type
 
 
+def validate_semester(semester):
+    while True:
+        try:
+            semester_split = semester.split("-")
+            if semester_split[0] not in ["FALL", "SPRING"] or not int(semester_split[1]) or len(semester_split[1]) != 4:
+                raise ValueError
+            return semester
+        except:
+            semester = input("Invalid semester format. Enter a valid semester (e.g FALL-2023) or exit using 'exit' : ")
+            if semester == "exit":
+                return None
+
+
 def validate_int(num):
     while True:
         try:
@@ -124,5 +137,5 @@ def validate_int(num):
         except:
             if num == "exit":
                 return None
-            num = input("The input should be a number:")
+            num = input("The input should be a number. Enter another number or exit using 'exit': ")
     return num

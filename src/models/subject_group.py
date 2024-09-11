@@ -8,4 +8,4 @@ class SubjectGroup:
         self.capacity = capacity
 
     def __repr__(self) -> str:
-        return f'Group: {self.subject_group}.  Subject: {self.subject_code}.  Semester: {self.semester}.  Available Seats: {self.maximum_capacity-self.capacity}'
+        return f'Group: {self.subject_group}.  Subject: {self.subject_code}.  Teacher: {self.teacher_id}.  Semester: {self.semester}.  Available Seats: {self.maximum_capacity-self.capacity}. Maximum Capacity: {self.maximum_capacity}'
