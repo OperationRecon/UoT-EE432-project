@@ -24,7 +24,7 @@ def add_grade(user):
         
         sem = input("Enter semester: ")
         
-        current_grades = grade_service.get_semester(student, sem)
+        current_grades = grade_service.get_semester_grades(student, sem)
         current_subjects = [i.subject_code for i in current_grades]
         if subject_code in current_subjects:
             print(f"Subject: {subject_code} has already been added to the student with ID: {student} in {sem}.\nEnter another subject, or exit with 'exit'." )
@@ -32,7 +32,9 @@ def add_grade(user):
         break
 
     
-    subject_group_number =  validate_subject_group(input("Enter subject group: "))
+    subject_group_number =  validate_subject_group(subject_code,input("Enter subject group: "),sem)
+    if not subject_group_number:
+        return
 
     yearwork = input("Enter yearwork grades: ")
     final = input("Enter Final Grade: ")
@@ -53,7 +55,6 @@ def get_grade(user):
         return
     
     subject_code = validate_subject(input("Enter subject code: "))
-
     if not subject_code:
         return
     
