@@ -16,9 +16,11 @@ def add_subject_group(user):
     subject_group = input("Enter subject group: ")
     maximum_capacity = input("Enter maximum capacity: ")
     semester = input("Enter semester (e.g SPRING-2024): ")
-    teacher_id = validate_teacher_data(input("Enter teacher ID: "))
-    if not teacher_id:
-        return
+    teacher_id = input("Enter teacher ID: ")
+    if teacher_id:
+        teacher_id = validate_teacher_data(teacher_id)
+        if not teacher_id: return
+
     
     try:
         subject_group_service.add_subject_group((subject_code, teacher_id, subject_group, maximum_capacity, semester, 0))
@@ -33,15 +35,10 @@ def update_subject_group(user):
     subject_code = validate_subject(input("Enter subject code to update: "))
     if not subject_code:
         return
-    
-    subject_group_number = validate_subject_group(input("Enter subject group to update: "))
+    semester = input("Enter semester to update (e.g SPRING-2024): ")
+    subject_group_number = validate_subject_group(subject_code, input("Enter subject group to update: "), semester)
     if not subject_group_number:
         return
-    
-    
-
-    semester = input("Enter semester to update (e.g SPRING-2024): ")
-
     try:
         subject_group = subject_group_service.get_subject_group(subject_code,subject_group_number,semester)
     
@@ -74,13 +71,10 @@ def delete_subject_group(user):
     subject_code = validate_subject(input("Enter subject code: "))
     if not subject_code:
         return
-    
-    subject_group_number = validate_subject_group(input("Enter subject group: "))
+    semester = input("Enter semester (e.g SPRING-2024): ")
+    subject_group_number = validate_subject_group(subject_code, input("Enter subject group: "),semester)
     if not subject_group_number:
         return
-    
-    semester = input("Enter semester (e.g SPRING-2024): ")
-
     try:
         subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, semester)
         if not subject_group:

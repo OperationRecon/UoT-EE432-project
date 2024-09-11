@@ -8,11 +8,7 @@ class Grade:
         self.subject_group = group
 
     def __str__(self) -> str:
-        if not self.yearwork: # Error None when display
-            self.yearwork = ""
-        if not self.final:
-            self.final = ""
-        return f'Subject: {self.subject_code}.  Group: {self.subject_group}.  Semester: {self.semester}.  Yearwork: {self.yearwork}.  Final: {self.final}.  Total: {self.yearwork+self.final}'
+        return f'Subject: {self.subject_code}.  Group: {self.subject_group}.  Semester: {self.semester}.  Yearwork: {self.yearwork if not None else ""}.  Final: {self.yearwork if not None else ""}.  Total: {self.yearwork+self.final}'
 
     def __repr__(self):
         return self.__str__()

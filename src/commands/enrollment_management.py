@@ -93,7 +93,7 @@ def force_drop_out(user):
     if not student_id:
         return
     sem = enrollment_service.get_current_semester()
-    current_grades = grade_service.get_semester(student_id, sem)
+    current_grades = grade_service.get_semester_grades(student_id, sem)
     current_subjects = [i.subject_code for i in current_grades]
     while True:
         subject_code = input("Enter subject code: ")
@@ -121,7 +121,7 @@ def drop_out(user):
     if not student_id:
         return
     sem = enrollment_service.get_current_semester()
-    current_grades = grade_service.get_semester(student_id, sem)
+    current_grades = grade_service.get_semester_grades(student_id, sem)
     current_subjects = [i.subject_code for i in current_grades]
     while True:
         subject_code = input("Enter subject code: ")
@@ -157,7 +157,7 @@ def force_enroll(user):
     if not student_id:
         return
     sem = enrollment_service.get_current_semester()
-    current_grades = grade_service.get_semester(student_id, sem)
+    current_grades = grade_service.get_semester_grades(student_id, sem)
     current_subjects = [i.subject_code for i in current_grades]
     while True:
         subject_code = input("Enter subject code: ")
