@@ -51,11 +51,12 @@ def get_current_units(student_id):
     conn = get_connection()
     cursor = conn.cursor()
     try:
+        semester = get_current_semester()
         cursor.execute('''
                 SELECT subject_code FROM grades 
                 WHERE student_id = ? AND 
-                (yearwork  IS NULL OR final IS NULL) 
-                ''', (student_id,))
+                semester = ? 
+                ''', (student_id,semester))
         subject = [i[0] for i in cursor.fetchall()]
         units = 0
         for i in subject:

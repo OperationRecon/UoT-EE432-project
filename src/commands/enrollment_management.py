@@ -2,12 +2,17 @@ from models.student import Student
 from models.admin import Admin
 import utils.helpers
 from services import subject_service, subject_group_service, grade_service, enrollment_service
+from utils.validation import *
+from commands.grade_management import get_academic_percentage
 
 
 def enroll(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
     student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
+    student_id = validate_student_data(student_id)
+    if not student_id:
+        return
     try:
         available_subjects_codes = subject_service.get_available_subjects(student_id)
         available_subjects = [subject_service.get_subject(subject) for subject in available_subjects_codes]
@@ -17,10 +22,18 @@ def enroll(user):
     show_available_subjects(available_subjects)
     while True:
         subject_code = input("Enter subject code: ")
+        subject_code = validate_subject(subject_code)
+        if not subject_code:
+            return
         if subject_code == 'exit':
             return
+        maximum_units = 21 if get_academic_percentage(student_id) >= 75 else 18
+        subject = subject_service.get_subject(subject_code)
+        if enrollment_service.get_current_units(student_id) + subject.cr > maximum_units:
+            print(f"Can't enroll more than {maximum_units}.  Enter another subject or exit with 'exit'.")
+            continue
         if subject_code not in available_subjects_codes:
-            print("Can't enroll in this subject due to insufficient requirements. Enter another or exit with 'exit'.")
+            print("Can't enroll in this subject due to insufficient requirements. Enter another subject or exit with 'exit'.")
             continue
         break
     try:
@@ -32,17 +45,15 @@ def enroll(user):
     semester = enrollment_service.get_current_semester()
     while True:
         subject_group_number = input("Enter subject group: ")
+        if subject_group_number == "exit":
+            return
         try:
-            subject = subject_service.get_subject(subject_code)
-            if not subject:
-                print("Subject not found.")
-                return
             subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, semester)
             if not subject_group:
-                print("Subject group not found.")
+                print("Subject group not found. Enter another subject group or exit with 'exit'.")
                 continue
             if subject_group_number not in [group.subject_group for group in available_groups]:
-                print("Subject capacity is full.")
+                print("Subject capacity is full. Enter another subject group or exit with 'exit'.")
                 continue
             grade_service.add_grade((subject_code, student_id, semester, None, None, subject_group_number))
             print("Enrolled successfully!")
@@ -69,6 +80,9 @@ def show_available_subject_groups(available_groups):
             return
         elif show == "Y":
             break
+    if not available_groups:
+        print("There are not groups yet")
+        return
     for group in available_groups:
         print(group)
 
