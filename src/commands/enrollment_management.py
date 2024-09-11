@@ -25,8 +25,6 @@ def enroll(user):
         subject_code = validate_subject(subject_code)
         if not subject_code:
             return
-        if subject_code == 'exit':
-            return
         maximum_units = 21 if get_academic_percentage(student_id) >= 75 else 18
         subject = subject_service.get_subject(subject_code)
         if enrollment_service.get_current_units(student_id) + subject.cr > maximum_units:

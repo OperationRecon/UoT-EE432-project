@@ -146,7 +146,6 @@ def update_user(user):
     print("Leave field empty if you don't want to update it.")
     password = input("Enter new Password: ")
     name = input(f"Enter new name ({updated_user.name}): ") or updated_user.name
-    user_type = input(f"Enter new user type (student, teacher, admin) ({updated_user.user_type}): ") or updated_user.user_type
     if user_type not in ["student", "admin", "teacher",""]:
         print(f"Error updating user: Invalid user type")
         return
@@ -162,7 +161,6 @@ def update_user(user):
 
 
 def update_password(user):
-
     user = user_service.get_user(user.id)
     while True:
         current_password = input("Enter your current password: ")
@@ -227,5 +225,3 @@ def get_all_users(user):
     except Exception as e:
         print(f"Error fetching users: {e}")
 
-def Check_ID_validation(id):
-    pass
