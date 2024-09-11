@@ -27,6 +27,30 @@ def validate_teacher_data(user_id):
         continue
     return user_id
 
+def validate_admin_data(user_id):
+    if user_id =="exit":
+        return
+    user = user_service.get_user(user_id)
+    while not user or user.user_type != "admin":
+        print(f"Admin with id: {user_id} doesn't exist.")
+        user_id = input("Enter another admin ID or exit with 'exit': ")
+        if user_id == "exit":
+            return None
+        user = user_service.get_user(user_id)
+        continue
+    return user_id
+
+def validate_user_data(user_id,user_type):
+    if user_type == "student":
+        return validate_student_data(user_id)
+    elif user_type == "teacher":
+        return validate_teacher_data(user_id)
+    elif user_type == "admin":
+        return validate_admin_data(user_id)
+
+
+
+
 
 
 def validate_subject(subject_code):
@@ -81,3 +105,14 @@ def Check_ID_standers(id,type):
     else:
         return False
     return True
+
+def validate_user_type():
+    user_type = input("Enter user's type (student or teacher or admin): ")
+    while user_type not in ["student","admin","teacher"]:
+        if user_type == "exit":
+            return
+        print(f"User type is not define. Enter another user type or exit with 'exit'.")
+        user_type = input("Enter user's type (student or teacher or admin): ")
+        continue
+    return user_type
+
