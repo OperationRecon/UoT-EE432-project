@@ -2,6 +2,8 @@ from services import grade_service, user_service, subject_group_service, subject
 
 
 def validate_student_data(user_id):
+    if user_id =="exit":
+        return
     user = user_service.get_user(user_id)
     while not user or user.user_type != "student":
         print(f"Student with id: {user_id} doesn't exist.")
@@ -13,6 +15,8 @@ def validate_student_data(user_id):
     return user_id
 
 def validate_teacher_data(user_id):
+    if user_id =="exit":
+        return
     user = user_service.get_user(user_id)
     while not user or user.user_type != "teacher":
         print(f"Student with id: {user_id} doesn't exist.")
@@ -26,6 +30,8 @@ def validate_teacher_data(user_id):
 
 
 def validate_subject(subject_code):
+    if subject_code =="exit":
+        return
     subject = subject_service.get_subject(subject_code)
     while not subject:
         print(f"Subject with code: {subject_code} doesn't exist.")
