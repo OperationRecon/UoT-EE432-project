@@ -202,8 +202,16 @@ def is_strong_password(password):
 def get_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    id = input("Enter the user ID to get: ")
-    current_user = user_service.get_user(id)
+    while True:
+        user_id = input("Enter the user ID to get: ")
+        if user_id == "exit":
+            return
+        current_user = user_service.get_user(user_id)
+        if not current_user:
+            print(f"User with id: {user_id} doesn't exist")
+            print("Enter another user ID or exit with 'exit': ")
+            continue
+        break
     print(f"name : {current_user.name}")
     print(f"id : {current_user.id}")
     print(f"user type : {current_user.user_type}")
