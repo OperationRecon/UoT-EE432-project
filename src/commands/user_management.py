@@ -136,25 +136,22 @@ def update_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     user_id = input("Enter the user ID to update: ")
-    updated_user = user_service.get_user(user_id)
-    if not updated_user:
-        print(f"User with id: {user_id} doesn't exist")
+    user_id = validate_student_data(user_id)
+    if not user_id:
         return
+    updated_user = user_service.get_user(user_id)
     if user_id == 1 and updated_user.id !=1:
         print("Only Admin 1 user can update its own")
         return
     print("Leave field empty if you don't want to update it.")
     password = input("Enter new Password: ")
     name = input(f"Enter new name ({updated_user.name}): ") or updated_user.name
-    if user_type not in ["student", "admin", "teacher",""]:
-        print(f"Error updating user: Invalid user type")
-        return
     if updated_user.user_type == "student":
         enrollment_date = input(f"Enter new enrollment date ({updated_user.enrollment_date}): ") or updated_user.enrollment_date
     else:
         enrollment_date = None
     try:
-        user_service.update_user(user_id, {"name": name, "enrollment_date": enrollment_date, "user_type": user_type , "password": password})
+        user_service.update_user(user_id, {"name": name, "enrollment_date": enrollment_date, "user_type": updated_user.user_type , "password": password})
         print(f"User with ID {user_id} updated successfully.")
     except Exception as e:
         print(f"Error updating user: {e}")
