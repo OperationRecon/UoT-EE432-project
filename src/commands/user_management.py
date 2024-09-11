@@ -26,13 +26,9 @@ def add_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     name = input("Enter user's name: ")
-    user_type = input("Enter user's type (student or teacher or admin): ")
-    while user_type not in ["student","admin","teacher"]:
-        if user_type == "exit":
-            return
-        print(f"User type is not define. Enter another user type or exit with 'exit'.")
-        user_type = input("Enter user's type (student or teacher or admin): ")
-        continue
+    user_type = validate_user_type()
+    if not user_type:
+        return
     if user_type == "student":
         enrollment_date = input("Enter user's enrollment_date (year): ")
     else:
@@ -57,12 +53,10 @@ def add_user(user):
                 if has_id in ["Y", "N", "exit"]:
                     break
             continue
-        if has_id == "N":
-            break
-        if has_id == "exit":
-            return
-        break
 
+        break
+    if has_id == "exit":
+        return
     if has_id == "N":
         id = create_id_user(enrollment_date, user_type)
 
@@ -114,12 +108,19 @@ def create_id_user(enrollment_date, user_type):
 def delete_user(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
+    user_type = validate_user_type()
+    if not user_type:
+        return
     user_id = input("Enter the user ID to delete: ")
+    user_id = validate_user_data(user_id,user_type)
+    if not user_id:
+        return
+
     selected_user = user_service.get_user(user_id)
     if not selected_user:
         print(f"User with id: {user_id} doesn't exist")
         return
-    if utils.helpers.verify_role(type(selected_user), [Admin]):
+    if isinstance(selected_user,Admin):
         num_users = len(user_service.get_specific_users(None, 'admin'))
         if num_users <= 1:
             print("Cannot delete the last admin.")
@@ -161,11 +162,16 @@ def update_user(user):
 
 
 def update_password(user):
-    current_password = input("Enter your current password: ")
+
     user = user_service.get_user(user.id)
-    if not user or not user_service.authenticate_user(user.id, current_password):
-        print("Current password is incorrect.")
-        return
+    while True:
+        current_password = input("Enter your current password: ")
+        if current_password == "exit":
+            return
+        if not user or not user_service.authenticate_user(user.id, current_password):
+            print("Current password is incorrect. Try again or exit with 'exit'.")
+            continue
+        break
     print("When updating your password, please ensure it meets the following criteria:\n"
             "Contains at least one uppercase letter.\n"
             "Contains at least one lowercase letter.\n"
@@ -173,9 +179,9 @@ def update_password(user):
             "Is between 8 and 20 characters in length.")
     new_password = input("Enter new password: ")
     while not is_strong_password(new_password):
-        print("Password is not strong enough. Please try again, or type 'back' to cancel")
+        print("Password is not strong enough. Please try again, or type 'exit' to cancel")
         new_password = input("Enter new password: ")
-        if new_password == "back":
+        if new_password == "exit":
             return
     try:
         user_service.update_user(user.id, {'password': new_password})
