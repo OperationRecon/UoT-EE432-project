@@ -90,12 +90,25 @@ def show_available_subject_groups(available_groups):
 def force_drop_out(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject_code = input("Enter subject code: ")
-    student = input("Enter student ID: ")
+    student_id = input("Enter student ID: ")
+    student_id = validate_student_data(student_id)
+    if not student_id:
+        return
     sem = enrollment_service.get_current_semester()
+    current_grades = grade_service.get_semester(student_id, sem)
+    current_subjects = [i.subject_code for i in current_grades]
+    while True:
+        subject_code = input("Enter subject code: ")
+        subject_code = validate_subject(subject_code)
+        if not subject_code:
+            return
+        if subject_code not in current_subjects:
+            print(f"{subject_code} has not been enrolled.   Enter another subject or exit with 'exit'.")
+            continue
+        break
 
     try:
-        grade_service.delete_grade(subject_code, student, sem)
+        grade_service.delete_grade(subject_code, student_id, sem)
         print("Student dropped out successfully!")
     except Exception as e:
         print(f"Error dropping student out: {e}")
@@ -104,19 +117,33 @@ def force_drop_out(user):
 def drop_out(user):
     if not utils.helpers.verify_role(type(user), [Admin, Student]):
         return
-    subject_code = input("Enter subject code: ")
-    student = user.id if isinstance(user, Student) else input("Enter student ID: ")
+
+    student_id = user.id if isinstance(user, Student) else input("Enter student ID: ")
+    student_id = validate_student_data(student_id)
+    if not student_id:
+        return
     sem = enrollment_service.get_current_semester()
-    coreq = enrollment_service.check_coreq_to_drop_out(student,subject_code)
-    subject = subject_service.get_subject(subject_code)
-    if coreq:
-        print(f"you have to drop enrolled corequisty subject")
-        return
-    if enrollment_service.get_current_units(student) - subject.cr < 12:
-        print("This subject will not be deleted for not reaching less than the minimum number of units.")
-        return
+    current_grades = grade_service.get_semester(student_id, sem)
+    current_subjects = [i.subject_code for i in current_grades]
+    while True:
+        subject_code = input("Enter subject code: ")
+        subject_code = validate_subject(subject_code)
+        if not subject_code:
+            return
+        coreq = enrollment_service.check_coreq_to_drop_out(student_id, subject_code)
+        subject = subject_service.get_subject(subject_code)
+        if coreq:
+            print(f"you have to drop enrolled corequisty subject. Enter another subject or exit with 'exit'.")
+            continue
+        if enrollment_service.get_current_units(student_id) - subject.cr < 12:
+            print("This subject will not be deleted for not reaching less than the minimum number of units.  Enter another subject or exit with 'exit'.")
+            continue
+        if subject_code not in current_subjects:
+            print(f"{subject_code} has not been enrolled. Enter another subject or exit with 'exit'.")
+            continue
+        break
     try:
-        grade_service.delete_grade(subject_code, student,  sem)
+        grade_service.delete_grade(subject_code, student_id,  sem)
         print("Student dropped out successfully!")
     except Exception as e:
         print(f"Error dropping student out: {e}")
@@ -127,12 +154,36 @@ def force_enroll(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
     # calls add grade with none without check
-    subject_code = input("Enter subject code: ")
-    student = input("Enter student ID: ")
-    subject_group = input("Enter subject group: ")
+    student_id = input("Enter student ID: ")
+    student_id = validate_student_data(student_id)
+    if not student_id:
+        return
     sem = enrollment_service.get_current_semester()
+    current_grades = grade_service.get_semester(student_id, sem)
+    current_subjects = [i.subject_code for i in current_grades]
+    while True:
+        subject_code = input("Enter subject code: ")
+        subject_code = validate_subject(subject_code)
+        if not subject_code:
+            return
+        if subject_code in current_subjects:
+            print(f"{subject_code} already has been enrolled.  Enter another subject group or exit with 'exit'.")
+            continue
+        break
+    while True:
+        subject_group_number = input("Enter subject group: ")
+        if subject_group_number == "exit":
+            return
+        try:
+            subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, sem)
+            if not subject_group:
+                print("Subject group not found. Enter another subject group or exit with 'exit'.")
+                continue
+        except Exception as e:
+            print(f"Error enrolling: {e}")
+        break
     try:
-        grade_service.add_grade((subject_code, student, sem, None, None, subject_group))
+        grade_service.add_grade((subject_code, student_id, sem, None, None, subject_group_number))
         print("Student Enrolled successully!")
 
     except Exception as e:
