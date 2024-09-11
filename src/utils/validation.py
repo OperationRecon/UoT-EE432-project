@@ -19,7 +19,7 @@ def validate_teacher_data(user_id):
         return
     user = user_service.get_user(user_id)
     while not user or user.user_type != "teacher":
-        print(f"Teacher with id: {user_id} doesn't exist.")
+        print(f"Student with id: {user_id} doesn't exist.")
         user_id = input("Enter another teacher ID or exit with 'exit': ")
         if user_id == "exit":
             return None
@@ -47,7 +47,7 @@ def validate_subject_group(subject_code, subject_group_number, semester):
     while True:
         if subject_group_number == "exit":
             return
-        
+
         try:
             subject_group = subject_group_service.get_subject_group(subject_code, subject_group_number, semester)
             if not subject_group:
@@ -61,3 +61,23 @@ def validate_subject_group(subject_code, subject_group_number, semester):
         break
 
     return subject_group.subject_group
+
+def Check_ID_standers(id,type):
+    if type == "student":
+        if len(id) != 10 or not id.isdigit():
+            print(f"{id} not match with student ID")
+            print("The ID must contain 10 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    elif type == "teacher":
+        if len(id) != 12 or not id.isdigit():
+            print(f"{id} not match with teacher ID")
+            print("The ID must contain 12 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    elif type == "admin":
+        if len(id) > 8 or not id.isdigit():
+            print(f"{id} not match with admin ID")
+            print("The ID must contain less than 8 digits and must be a number only. Enter exit to 'exit'.")
+            return False
+    else:
+        return False
+    return True
