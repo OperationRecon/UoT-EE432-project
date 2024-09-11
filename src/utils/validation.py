@@ -19,7 +19,7 @@ def validate_teacher_data(user_id):
         return
     user = user_service.get_user(user_id)
     while not user or user.user_type != "teacher":
-        print(f"Student with id: {user_id} doesn't exist.")
+        print(f"Teacher with id: {user_id} doesn't exist.")
         user_id = input("Enter another teacher ID or exit with 'exit': ")
         if user_id == "exit":
             return None
@@ -43,7 +43,7 @@ def validate_subject(subject_code):
     return subject_code
 
 
-def validate_subject_group(grade_data):
+def validate_subject_group(subject_code, subject_group, semester):
     if not subject_group_service.get_subject_group(subject_code, subject_group, semester):
         print(f"Subject with code: {subject_code} doesn't exist")
         return
