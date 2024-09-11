@@ -56,7 +56,6 @@ def get_all_subjects():
 def get_available_subjects(student_id):
     conn = get_connection()
     cursor = conn.cursor()
-    print(student_id)
     try:
         # Get passed subjects
         cursor.execute('''SELECT code FROM subjects
@@ -66,12 +65,12 @@ def get_available_subjects(student_id):
         
         passed = [x[0] for x in cursor.fetchall()]
         
-        print(student_id)
+
         # Get currently studied subjects
         cursor.execute('''SELECT subject_code FROM grades WHERE student_id = (?) AND semester IN (SELECT * FROM current_semester)''', (int(student_id),))
         current = [x[0] for x in cursor.fetchall()]
 
-        print(student_id)
+
         # Get other subjects
         cursor.execute('''SELECT code, preq, coreq FROM subjects
                     WHERE (code NOT IN 
