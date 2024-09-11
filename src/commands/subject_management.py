@@ -11,10 +11,15 @@ def add_subject(user):
     
     code = input("Enter subject's code: ")
     title = input("Enter subject's title: ")
-    preq = input("Enter subject's prerequisites (space separated): ") #.split() ???
-    coreq = input("Enter subject's co-requisites (space separated): ") #.split() ???
+    try:
+        preq = " ".join([validate_subject(subject) for subject in input("Enter subject's prerequisites (space separated): ").split()])
+        coreq = " ".join([validate_subject(subject) for subject in input("Enter subject's co-requisites (space separated): ").split()])
+    except:
+        return
     description = input("Enter subject's description: ")
-    cr = input("Enter subject's credits: ")
+    cr = validate_int(input("Enter subject's credits: "))
+    if not cr:
+        return
     faculty = input("Enter subject's faculty: ")
     dept = input("Enter subject's department: ")
     branch = input("Enter subject's branch: ")
@@ -29,10 +34,11 @@ def add_subject(user):
 def delete_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject_code = input("Enter subject code to delete: ")
-    subject_code = validate_subject(subject_code)
+
+    subject_code = validate_subject(input("Enter subject code to delete: "))
     if not subject_code:
         return
+
     try:
         subject_service.delete_subject(subject_code)
         print("Subject deleted successfully")
@@ -43,20 +49,27 @@ def delete_subject(user):
 def update_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return
-    subject_code = input("Enter subject code to update: ")
-    subject_code = validate_subject(subject_code)
+
+    subject_code = validate_subject(input("Enter subject code to update: "))
     if not subject_code:
         return
-    
-    subject = subject_service.get_subject(subject_code)
 
+    subject = subject_service.get_subject(subject_code)
     print("Leave field empty if you don't want to update it.")
     code = input(f"Enter new code ({subject.code}): ") or subject.code
     title = input(f"Enter new title ({subject.title}): ") or subject.title
-    preq = input(f"Enter new prerequisites ({subject.preq}): ") or subject.preq
-    coreq = input(f"Enter new co-requisites ({subject.coreq}): ") or subject.coreq
+    try:
+        preq = input(f"Enter new prerequisites ({subject.preq}): ") or subject.preq
+        preq = " ".join([validate_subject(subject) for subject in preq.split()])
+        coreq = input(f"Enter new co-requisites ({subject.coreq}): ") or subject.coreq
+        coreq = " ".join([validate_subject(subject) for subject in coreq.split()])
+    except:
+        return
     description = input(f"Enter new description ({subject.description}): ") or subject.description
     cr = input(f"Enter new credits ({subject.cr}): ") or subject.cr
+    cr = validate_int(cr)
+    if not cr:
+        return
     faculty = input(f"Enter new faculty ({subject.faculty}): ") or subject.faculty
     dept = input(f"Enter new department ({subject.dept}): ") or subject.dept
     branch = input(f"Enter new branch ({subject.branch}): ") or subject.branch
@@ -81,17 +94,3 @@ def list_subjects(user):
         return
     for subject in subjects:
         print(subject)
-
-
-def assign_teacher_to_subject_group(user):  # delete?
-    if not utils.helpers.verify_role(type(user), [Admin]):
-        return
-    teacher_id = input("Enter teacher ID: ")
-    subject_code = input("Enter subject code: ")
-    subject_group = input("Enter subject group: ")
-    semester = input("Enter semester: ")
-    try:
-        subject_service.assign_teacher_to_subject_group(subject_code, teacher_id, subject_group, semester)
-        print("Teacher assigned to subject successfully")
-    except Exception as e:
-        print(f"Error assigning teacher to subject: {e}")

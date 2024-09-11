@@ -114,3 +114,15 @@ def validate_user_type():
         user_type = input("Enter user's type (student or teacher or admin): ")
         continue
     return user_type
+
+
+def validate_int(num):
+    while True:
+        try:
+            num = int(num)
+            break
+        except:
+            if num == "exit":
+                return None
+            num = input("The input should be a number:")
+    return num
