@@ -51,7 +51,7 @@ The system follows a modular architecture with separate components for user inte
    - Teacher (`models/teacher.py`)
    - Admin (`models/admin.py`)
    - Subject (`models/subject.py`)
-   - SubjectGroup (`models/subject_group.py`)
+   - Subject Group (`models/subject_group.py`)
    - Grade (`models/grade.py`)
 
 5. Utilities:
@@ -72,14 +72,26 @@ The system follows a modular architecture with separate components for user inte
 ## User Guide
 
 ### First-time Setup
+Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
+`pip install -r requirements.txt`
 
-On first run (when no database is found), the system automatically:
+A databse must be manually created first. To create a databse, simply make a new file with the extension: `.db` (i.e.: `university.db`). (NOTE: ideally open the new file in `the same folder under a new subfolder 'data'`).
+
+To connect with the databse, open the `src\sys_env.py` file and set the value of `DATABASE_NAME` to the path of the just created `.db` file. The path MUST be surrounded by quotation marks.
+(i.e.:`DATABASE_NAME = 'data\university.db'`)
+
+The name and login password can be modified before the database is created. To the first admin's name and password, go to `sys_env.py` and, within the variable: `FIRST_ADMIN` input the following:
+`{'name': 'your_first_admin_name', 'password': 'your_first_admin_password'}`
+
+Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed before or after the initial setup.
+
+On first run (with an empty database), the system automatically:
 1. Creates necessary database tables
-2. Creates an admin user with ID 1 and password "admin"
+2. Creates an admin user with ID and password using the values stored in `src\sys_env.py`
 
 ### For Administrators
 
-1. Login using ID 1 and password "admin" (change this password immediately)
+1. Login using ID and password (as assigned in `src\sys_env.py`)
 2. Manage Users (Add, Update, Delete, View)
 3. Manage Subjects and Subject Groups
 4. Oversee Enrollments and Grades
