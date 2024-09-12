@@ -107,7 +107,7 @@ def insert_data():
     # Insert 10 admins
     admin_ids = [str(i) for i in range(2, 12)]
     for i, admin_id in enumerate(admin_ids):
-        add_user([f"Admin{i + 1}",admin_id,"admin",admin_id,None])
+        add_user([f"Admin{i + 1}","admin","admin",admin_id,None])
 
     # Insert 30 teachers
     teacher_ids = [f"120{str(i).zfill(9)}" for i in range(1, 31)]
