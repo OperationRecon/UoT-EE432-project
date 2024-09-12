@@ -1,4 +1,4 @@
 {
-    "database": "databsepath",
+    "database": "..\\data\\university.db",
     "password": "admin"
 }

@@ -93,19 +93,40 @@ def delete_subject_group(user):
 def list_subject_groups(user):
     if not verify_role(type(user), [Admin]):
         return
+
     subject_code = validate_subject(input("Enter subject code: "))
     if not subject_code:
         return
+
     try:
-        subject_groups = subject_group_service.get_available_subject_groups(subject_code)
+        semester = enrollment_service.get_current_semester()
+        try:
+            subject_groups = subject_group_service.get_subject_groups(subject_code, semester)
+        except Exception as e:
+            print(f"Error fetching current subject groups: {e}")
+            return
+
+        if not subject_groups:
+            print("No subject groups found in the current semester.")
+        else:
+            print(f"\n{subject_code} has {str(len(subject_groups))} subject groups in the current semester {semester}:")
+            for group in subject_groups:
+                print(group)
     except Exception as e:
-        print(f"Error fetching available subject groups: {e}")
-    if not subject_groups:
-        print("No subject groups found in the current semester.")
-        return
-    try:
-        print(f"{subject_code} has {str(len(subject_groups))} subject groups in the current semester {enrollment_service.get_current_semester()}:")
-    except:
-        print("Error fetching current semester")
-    for group in subject_groups:
-        print(group)
+        print(f"Error fetching current semester: {e}")
+
+    previous = input("Do you want to show groups of previous semester?(Y/N): ")
+    if previous == "Y":
+        try:
+            subject_groups = subject_group_service.get_subject_groups(subject_code, "*")
+        except Exception as e:
+            print(f"Error fetching previous subject groups: {e}")
+            return
+        if not subject_groups:
+            print("No subject groups found in previous semesters.")
+        else:
+            print(f"\n{subject_code} has {str(len(subject_groups))} subject groups in the previous semesters:")
+            for group in subject_groups:
+                print(group)
+
+

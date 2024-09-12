@@ -52,23 +52,6 @@ def delete_subject_group(subject_code, subject_group, semester):
     finally:
         conn.close()
 
-def get_available_seats(subject_code, subject_group, semester): # revision
-    conn = get_connection()
-    cursor = conn.cursor()
-    try:
-        cursor.execute('''
-            SELECT sg.maximum_capacity - COUNT(e.student_id) as available_seats
-            FROM subject_groups sg
-            LEFT JOIN enrollments e ON sg.subject_code = e.subject_code 
-                AND sg.subject_group = e.subject_group 
-                AND sg.semester = e.semester
-            WHERE sg.subject_code = ? AND sg.subject_group = ? AND sg.semester = ?
-            GROUP BY sg.subject_code, sg.subject_group, sg.semester
-        ''', (subject_code, subject_group, semester))
-        result = cursor.fetchone()
-        return result[0] if result else 0
-    finally:
-        conn.close()
 
 def get_available_subject_groups(subject):
     conn = get_connection()
@@ -78,6 +61,26 @@ def get_available_subject_groups(subject):
             SELECT * FROM subject_groups
             WHERE subject_code = ? AND semester IN (SELECT * FROM current_semester) AND maximum_capacity > capacity
         ''', (subject,))
+
+        data = cursor.fetchall()
+        return [SubjectGroup(*group) for group in data] if data else None
+
+    finally:
+        conn.close()
+
+
+def get_subject_groups(subject, semester):
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        if semester == "*":
+            cursor.execute('''
+                    SELECT * FROM subject_groups
+                    WHERE subject_code = ?''', (subject,))
+        else:
+            cursor.execute('''
+                                SELECT * FROM subject_groups
+                                WHERE subject_code = ? AND semester = ?''', (subject, semester,))
 
         data = cursor.fetchall()
         return [SubjectGroup(*group) for group in data] if data else None

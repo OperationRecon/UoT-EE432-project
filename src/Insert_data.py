@@ -4,10 +4,10 @@ import json
 
 with open('sys_env.json', 'r') as file:
     data = json.load(file)
-DATABASE_NAME = data['database']
+DATABASE = data['database']
 
 def insert_data():
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     data = [
@@ -116,7 +116,7 @@ def insert_data():
 
 
 
-    conn = sqlite3.connect(r'..\data\university.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     # Insert 10 admins
@@ -232,8 +232,8 @@ def insert_data():
         ''', (subj[0], subj[1], subj[2], subj[3], subj[5]))
 
         for year in range(2019, 2026):
-            for semester in ['Spring', 'Fall']:
-                if semester == "Fall" and year == 2025:
+            for semester in ['SPRING', 'FALL']:
+                if semester == "FALL" and year == 2025:
                     break
                 semester_name = f"{semester}-{year}"
                 teacher_id = random.choice(teacher_ids)  # Random teacher for demonstration
@@ -249,7 +249,7 @@ def insert_data():
     conn.close()
 
     # Reopen the connection for further operations
-    conn = sqlite3.connect(r'..\data\university.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     # Get all subjects
@@ -257,7 +257,7 @@ def insert_data():
     subjects = cursor.fetchall()
 
     for year in range(2019, 2025):
-        for semester in ['Spring', 'Fall']:
+        for semester in ['SPRING', 'FALL']:
             semester_name = f"{semester}-{year}"
             cursor.execute('SELECT id FROM users WHERE user_type="student" AND enrollment_date<=?', (year,))
             students = cursor.fetchall()
@@ -275,30 +275,36 @@ def insert_data():
                         VALUES (?, ?, ?, ?, ?, ?)
                     ''', (subj[0], student_id, semester_name, yearwork, final, 'Group1'))
 
-    cursor.execute("UPDATE current_semester SET semester = ?", ("Spring-2025",))
+    cursor.execute("UPDATE current_semester SET semester = ?", ("SPRING-2025",))
 
     # Final commit and close
     conn.commit()
     conn.close()
 
-# insert_data()
+
 import sqlite3
 
 # Connect to the SQLite database
-conn = sqlite3.connect(r'..\data\university.db')
+conn = sqlite3.connect(DATABASE)
 cursor = conn.cursor()
 
 # Execute a query to read data from the subject_groups table
-print("users grades subjects subject_groups")
-x = input(">>")
-cursor.execute(f'SELECT * FROM {x}')
+while True:
+    print("users grades subjects subject_groups insert_data exit")
+    x = input(">>")
+    if x == "exit":
+        break
+    elif x == "insert_data":
+        insert_data()
+        continue
+    cursor.execute(f'SELECT * FROM {x}')
 
-# Fetch all rows from the executed query
-rows = cursor.fetchall()
+    # Fetch all rows from the executed query
+    rows = cursor.fetchall()
 
-# Print the rows
-for row in rows:
-    print(row)
+    # Print the rows
+    for row in rows:
+        print(row)
 
 # Close the connection
 conn.close()
