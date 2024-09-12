@@ -18,14 +18,16 @@ def add_grade(user):
         subject_code = validate_subject(subject_code)
         if not subject_code:
             return
-        sem = input("Enter semester: ")
+        sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+        if not sem:
+            return
         current_grades = grade_service.get_semester_grades(student, sem)
         current_subjects = [i.subject_code for i in current_grades]
         if subject_code in current_subjects:
             print(f"Subject: {subject_code} has already been added to the student with ID: {student} in {sem}.\nEnter another subject, or exit with 'exit'." )
             continue
         break
-    subject_group_number =  validate_subject_group(subject_code,input("Enter subject group: "),sem)
+    subject_group_number = validate_subject_group(subject_code,input("Enter subject group: "),sem)
     if not subject_group_number:
         return
     yearwork = input("Enter yearwork grades: ")
@@ -49,8 +51,10 @@ def get_grade(user):
     subject_code = validate_subject(input("Enter subject code: "))
     if not subject_code:
         return
-    
-    sem = input("Enter semester: ")
+
+    sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+    if not sem:
+        return
     
     try:
         grade = grade_service.get_grade(studentID,subject_code,sem)
@@ -75,24 +79,25 @@ def update_grade(user):
     sID = validate_student_data(input("Enter student ID: "))
     if not sID:
         return
-    sem = input("Enter semester: ")
+    sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+    if not sem:
+        return
     grade = grade_service.get_grade(sID, subject, sem)
     if not grade:
         print("Grade not found.")
         return
     print("Leave field empty if you don't want to update it.")
-    subject_code = input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code
-    if not subject_service.get_subject(subject_code):
-        print(f"Subject with code: {subject_code} doesn't exist")
+    subject_code = validate_subject(input(f"Enter new code ({grade.subject_code}): ") or grade.subject_code)
+    if not subject_code:
         return
-    student_ID = input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id
-    if not user_service.get_user(student_ID):
-        print(f"User with id: {student_ID} doesn't exist")
+    student_ID = validate_student_data(input(f"Enter new student ID ({grade.student_id}): ") or grade.student_id)
+    if not student_ID:
         return
-    semester = input(f"Enter new semester ({grade.semester}): ") or grade.semester
-    subject_group = input(f"Enter new group ({grade.subject_group}): ") or grade.subject_group
-    if not subject_group_service.get_subject_group(subject_code, subject_group, sem): ########
-        print(f"Group {subject_group} for subject with code: {subject_code} doesn't exist")
+    semester = validate_semester(input(f"Enter new semester ({grade.semester}): ") or grade.semester)
+    if not semester:
+        return
+    subject_group = validate_subject_group(subject_code, input(f"Enter new group ({grade.subject_group}): ") or grade.subject_group, semester)
+    if not subject_group:
         return
     yearwork = input(f"Enter new yearwork grade ({grade.yearwork}): ") or grade.yearwork
     final = input(f"Enter new final exam grade ({grade.final}): ") or grade.final
@@ -118,14 +123,21 @@ def assign_grade(user):
     student_id = validate_student_data(input("Enter student ID: "))
     if not student_id:
         return
-    sem = input("Enter semester: ")
-    if user.user_type == "teacher" and user.id != subject_group_service.get_subject_group(subject_code, input("Enter subject group: "), sem):
+    sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+    if not sem:
+        return
+    subject_group_number = validate_subject_group(subject_code, input("Enter subject group: "), sem)
+    if not subject_group_number:
+        return
+    if user.user_type == "teacher" and user.id != subject_group_service.get_subject_group(subject_code, subject_group_number, sem).teacher_id:
         print("You are not allowed to assign a grade to this subject group!.")
+        return
     print("Leave field empty if you don't want to assign it.")
     try:
         grade = grade_service.get_grade(student_id,subject_code,sem)
     except Exception as e:
         print(f"Error fetching grade: {e}")
+        return
     if not grade:
         print('Student has not enrolled in this subject to assign a grade to. Enroll student to subject first to assign a grade.')
         return
@@ -152,7 +164,9 @@ def delete_grade(user):
     student_id = validate_student_data(input("Enter student ID: "))
     if not student_id:
         return
-    sem = input("Enter semester: ")
+    sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+    if not sem:
+        return
     try:
         grade_service.delete_grade(student_id, subject_code, sem)
         print("Grade deleted successfully!")
@@ -167,8 +181,11 @@ def get_subject_grades(user):
     subject_code = validate_subject(input("Enter subject code: "))
     if not subject_code:
         return
-    
-    sem = input("Enter semester: ")
+
+    sem = validate_semester(input("Enter semester (e.g SPRING-2024): "))
+    if not sem:
+        return
+
     subject_group = validate_subject_group(subject_code, input("Enter subject group: "), sem)
     if not subject_group:
         return
