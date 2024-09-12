@@ -62,7 +62,11 @@ def add_user(user):
 
 
     try:
-        user_id = user_service.add_user([name,id,user_type,id,enrollment_date])
+        if user_type == "admin":
+            password = "admin"
+        else:
+            password = id
+        user_id = user_service.add_user([name,password,user_type,id,enrollment_date])
         print(f"The {user_type} added successfully, user's id : {user_id}")
     except Exception as e:
         print(f"Error adding {user_type}: {e}")
