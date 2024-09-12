@@ -64,10 +64,10 @@ This School Management System is designed to streamline administrative tasks in 
 
 1. User Authentication and Authorization
 2. User Management (CRUD operations for all user types)
-3. Subject and Subject Group Management
-4. Grade Management
+3. Subject and Subject Group Management (CRUD operations)
+4. Grade Management (CRUD operations)
 5. Enrollment Management with Capacity Control
-6. Password Management
+6. Password Management with Hashing
 7. Viewing Student Grades, Semesters, and Enrollments
 8. Teacher Control over Assigned Subject Groups and Grading
 
