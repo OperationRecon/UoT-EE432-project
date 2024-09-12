@@ -3,7 +3,7 @@ import random
 import json
 from database import init_db
 
-with open('sys_env.json', 'r') as file:
+with open('../sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
 

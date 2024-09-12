@@ -1,5 +1,5 @@
 # UoT-EE432-project
-The final project for the EE432 Data Structure course in the University of Tripoli Department of Electrical and Electronic Engineering
+The final project for the EE432 Data Structure course in the University of Tripoli Department of Electrical and Electronic Engineering Spring-2024.
 # School Management System
 
 ## Table of Contents
@@ -19,7 +19,6 @@ This School Management System is designed to streamline administrative tasks in 
 
 ## System Architecture
 
-The system follows a modular architecture with separate components for user interface, business logic, and data access:
 
 1. CLI Interface: Handled by the `menu.py` file, which provides the main interface and calls other management modules.
 2. Management Modules: Implement commands that can be executed by the system (e.g., `user_management.py`, `subject_management.py`).
@@ -30,33 +29,36 @@ The system follows a modular architecture with separate components for user inte
 
 ## Modules
 
-1. Menu (`menu.py`):
+1. Menu (`src/CLI/menu.py`):
    - Main CLI interface
    - Provides initial input/output and calls to management modules
 
 2. Management Modules:
-   - User Management (`user_management.py`)
-   - Subject Management (`subject_management.py`)
-   - Grade Management (`grade_management.py`)
-   - Enrollment Management (`enrollment_management.py`)
+   - User Management (`src/commands/user_management.py`)
+   - Subject Management (`src/commands/subject_management.py`)
+   - Subject Group Management (`src/commands/subject_group_management.py`)
+   - Grade Management (`src/commands/grade_management.py`)
+   - Enrollment Management (`src/commands/enrollment_management.py`)
 
 3. Service Modules:
-   - User Service (`user_service.py`)
-   - Subject Service (`subject_service.py`)
-   - Grade Service (`grade_service.py`)
-   - Enrollment Service (`enrollment_service.py`)
+   - User Service (`src/services/user_service.py`)
+   - Subject Service (`src/services/subject_service.py`)
+   - Subject Group Service (`src/services/subject_group_service.py`)
+   - Grade Service (`src/services/grade_service.py`)
+   - Enrollment Service (`src/services/enrollment_service.py`)
 
 4. Models:
-   - Student (`models/student.py`)
-   - Teacher (`models/teacher.py`)
-   - Admin (`models/admin.py`)
-   - Subject (`models/subject.py`)
-   - Subject Group (`models/subject_group.py`)
-   - Grade (`models/grade.py`)
+   - User (`src/models/user.py`)
+   - Student (`src/models/student.py`)
+   - Teacher (`src/models/teacher.py`)
+   - Admin (`src/models/admin.py`)
+   - Subject (`src/models/subject.py`)
+   - Subject Group (`src/models/subject_group.py`)
+   - Grade (`src/models/grade.py`)
 
 5. Utilities:
-   - Helpers (`utils/helpers.py`): Contains utility functions like password hashing and role verification.
-   - Validation (`utils/validation.py`): Implements input validation functions to ensure data integrity.
+   - Helpers (`src/utils/helpers.py`): Contains utility functions like password hashing and role verification.
+   - Validation (`src/utils/validation.py`): Implements input validation functions to ensure data integrity.
 
 ## Key Functionalities
 
@@ -75,13 +77,13 @@ The system follows a modular architecture with separate components for user inte
 Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
 `pip install -r requirements.txt`
 
-A databse must be manually created first. To create a databse, simply make a new file with the extension: `.db` (i.e.: `university.db`). (NOTE: ideally open the new file in `the same folder under a new subfolder 'data'`).
-
-To connect with the databse, open the `src\sys_env.py` file and set the value of `DATABASE_NAME` to the path of the just created `.db` file. The path MUST be surrounded by quotation marks.
-(i.e.:`DATABASE_NAME = 'data\university.db'`)
+To connect with the database, open the `sys_env.json` file and set the value of `DATABASE_NAME` to the desired path of the data. The path MUST be surrounded by quotation marks. 
+Default is:`DATABASE_NAME = 'data\university.db'`
 
 The name and login password can be modified before the database is created. To the first admin's name and password, go to `sys_env.py` and, within the variable: `FIRST_ADMIN` input the following:
 `{'name': 'your_first_admin_name', 'password': 'your_first_admin_password'}`
+
+Default is: admin:admin
 
 Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed before or after the initial setup.
 

@@ -2,7 +2,7 @@ import sqlite3
 import json
 from utils.helpers import hash_password
 
-with open('sys_env.json', 'r') as file:
+with open('../sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
 PASSWORD = data['password']
@@ -38,7 +38,7 @@ def init_db():
     
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS subjects (
-                code TEXT NOT NULL,
+                code TEXT NOT NULL UNIQUE,
                 title TEXT NOT NULL,
                 preq TEXT,
                 coreq TEXT,
