@@ -134,7 +134,7 @@ def insert_data():
     # Insert 60 students (10 per year from 2019 to 2024)
     for year in range(2019, 2025):
         for i in range(10):
-            student_id = f"{str(year)[-2:]}020{str(i).zfill(4)}"
+            student_id = f"2{str(year)[-2:]}020{str(i).zfill(4)}"
             cursor.execute('''
                 INSERT INTO users (id, name, password_hash, user_type, enrollment_date)
                 VALUES (?, ?, ?, "student", ?)
@@ -227,8 +227,10 @@ def insert_data():
             VALUES (?, ?, ?, ?, ?, "Engineering", "Electric and Electronics Engineering", "")
         ''', (subj[0], subj[1], subj[2], subj[3], subj[5]))
 
-        for year in range(2019, 2025):
+        for year in range(2019, 2026):
             for semester in ['Spring', 'Fall']:
+                if semester == "Fall" and year == 2025:
+                    break
                 semester_name = f"{semester}-{year}"
                 teacher_id = random.choice(teacher_ids)  # Random teacher for demonstration
                 group_number = 1
@@ -269,11 +271,13 @@ def insert_data():
                         VALUES (?, ?, ?, ?, ?, ?)
                     ''', (subj[0], student_id, semester_name, yearwork, final, 'Group1'))
 
+    cursor.execute("UPDATE current_semester SET semester = ?", ("Spring-2025",))
+
     # Final commit and close
     conn.commit()
     conn.close()
 
-insert_data()
+# insert_data()
 import sqlite3
 
 # Connect to the SQLite database
