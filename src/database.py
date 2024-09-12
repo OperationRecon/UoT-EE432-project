@@ -1,15 +1,21 @@
 import sqlite3
-from sys_env import *
+import json
 from utils.helpers import hash_password
 
 
 def get_connection():
-    return sqlite3.connect(DATABASE_NAME)
+    with open('src\sys_env.json', 'r') as file:
+        data = json.load(file)
+
+    return sqlite3.connect(data['database'])
 
 
 def init_db():
     conn = get_connection()
     cursor = conn.cursor()
+
+    with open('src\sys_env.json', 'r') as file:
+        data = json.load(file)
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                    id INTEGER PRIMARY KEY NOT NULL,
@@ -18,10 +24,10 @@ def init_db():
                    user_type TEXT NOT NULL,
                    enrollment_date INTEGER)''')
     
-    p_hash = hash_password(FIRST_ADMIN["password"])
+    p_hash = hash_password(data["password"])
 
     cursor.execute('''INSERT OR IGNORE INTO users (id ,name, password_hash, user_type)
-                   Values (?, ?, ? ,"admin") ''', (1, FIRST_ADMIN['name'], p_hash))
+                   Values (?, ?, ? ,"admin") ''', (1, 'admin' ,p_hash))
     
     cursor.execute('''
             CREATE TABLE IF NOT EXISTS grades (
