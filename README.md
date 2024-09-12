@@ -8,10 +8,8 @@ The final project for the EE432 Data Structure course in the University of Tripo
 3. [Modules](#modules)
 4. [Key Functionalities](#key-functionalities)
 5. [User Guide](#user-guide)
-6. [Database](#database)
-7. [User Types and ID Generation](#user-types-and-id-generation)
-8. [License](#license)
-9. [Acknowledgements](#acknowledgements)
+6. [License](#license)
+7. [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
