@@ -11,12 +11,81 @@ import services.enrollment_service as enrollment_service
 
 
 def command_help(user):
-    for i in commands.keys():
-        if i == "login":
-            print(i, " (With a different user)")
-            continue
-        if isinstance(user,commands[i][1]):
-            print(i)
+    print("\nAvailable commands:")
+
+    categories = {
+        "General": ["help", "exit", "login", "update password", "get current semester", "set current semester"],
+        "User Management": ["add user", "delete user", "update user", "get user", "list users"],
+        "Subject Management": ["add subject", "update subject", "delete subject", "list subjects"],
+        "Subject Group Management": ["add subject group", "update subject group", "delete subject group",
+                                     "list subject groups"],
+        "Grade Management": ["add grade", "get grade", "update grade", "assign grade", "delete grade",
+                             "show subject grades", "show student grades", "show semester grades"],
+        "Enrollment Management": ["force enroll", "drop out", "force drop out", "enroll"]
+    }
+
+    for category, cmd_list in categories.items():
+        print(f"\n{category}:")
+        for cmd in cmd_list:
+            if cmd in commands and isinstance(user, commands[cmd][1]):
+                if cmd == "login":
+                    print(f"  {cmd} - Log in with a different user")
+                else:
+                    print(f"  {cmd}")
+
+    print("\nFor more information on a specific command, type 'help <command>'")
+
+
+def command_help_detail(user, command):
+    if not isinstance(user, commands[command][1]):
+        print(f"Command '{command}' is not available for your user role.")
+        return
+    elif command not in commands:
+        print(f"Command '{command}' does not exist.")
+        return
+
+    command_details = {
+        "login": "Log in with a different user account",
+        "help": "Display available commands or get help on a specific command",
+        "exit": "Exit the application",
+        "update password": "Change your current password",
+        "get current semester": "Display the current academic semester",
+        "add user": "Create a new user (admin, teacher, or student)",
+        "delete user": "Remove a user from the system",
+        "update user": "Modify user information",
+        "get user": "Retrieve information about a specific user",
+        "list users": "Display a list of all users",
+        "add subject": "Create a new subject",
+        "update subject": "Modify subject information",
+        "delete subject": "Remove a subject from the system",
+        "list subjects": "Display a list of all subjects",
+        "add subject group": "Create a new subject group",
+        "update subject group": "Modify subject group information",
+        "delete subject group": "Remove a subject group",
+        "list subject groups": "Display a list of all subject groups",
+        "add grade": "Add a new grade for a student",
+        "get grade": "Retrieve a specific grade",
+        "update grade": "Modify an existing grade",
+        "assign grade": "Assign a grade to a student for a subject",
+        "delete grade": "Remove a grade from the system",
+        "show subject grades": "Display grades for a specific subject",
+        "show student grades": "Show grades for a specific student",
+        "show semester grades": "Display grades and enrollments for the current semester",
+        "force enroll": "Enroll a student in a subject group, bypassing restrictions",
+        "drop out": "Remove a student from a subject group",
+        "force drop out": "Remove a student from a subject group, bypassing restrictions",
+        "enroll": "Enroll a student in a subject group",
+        "set current semester": "Set the current academic semester"
+    }
+
+    print(f"\nCommand: {command}")
+    print(f"Description: {command_details.get(command, 'No detailed description available.')}")
+    print("Usage: Just type the command and follow the prompts.")
+
+
+def detailed_help(user):
+    command = input("Enter the command you need help with: ")
+    command_help_detail(user, command)
 
 
 def display_main_menu():
@@ -43,7 +112,9 @@ def handle_user_input():
             display_main_menu()
 
         command = input(">>")
-        if command and command in commands:
+        if command.startswith("help "):
+            detailed_help(current_user)
+        elif command and command in commands:
             if command == "exit":
                 break
 
@@ -68,6 +139,8 @@ def run_cli():
 commands = {
     "login": ("",(Admin,Student,Teacher)),
     "help": (command_help,(Admin,Student,Teacher)),
+    "help <command>": (detailed_help, (Admin, Student, Teacher)),
+
     "exit": ("",(Admin,Student,Teacher)),
 
     "add subject": (add_subject,Admin),

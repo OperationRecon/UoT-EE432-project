@@ -1,6 +1,6 @@
 # UoT-EE432-project
 The final project for the EE432 Data Structure course in the University of Tripoli Department of Electrical and Electronic Engineering Spring-2024.
-# School Management System
+# University Management System
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -13,7 +13,7 @@ The final project for the EE432 Data Structure course in the University of Tripo
 
 ## Introduction
 
-This School Management System is designed to streamline administrative tasks in educational institutions. It provides comprehensive functionality for managing users (students, teachers, and administrators), subjects, subject groups, grades, and enrollments, all through a Command Line Interface (CLI).
+This University Management System is designed to streamline administrative tasks in educational institutions. It provides comprehensive functionality for managing users (students, teachers, and administrators), subjects, subject groups, grades, and enrollments, all through a Command Line Interface (CLI).
 
 ## System Architecture
 
@@ -140,4 +140,4 @@ This project is licensed under The GNU General Public License v3.0 - see the [LI
 ## Acknowledgements
 
 Special thanks to Dr. Nuri BenBarka for his invaluable guidance and support throughout this course 
-His expertise and encouragement were instrumental in the successful completion of this School Management System.
+His expertise and encouragement were instrumental in the successful completion of this University Management System.
