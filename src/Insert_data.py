@@ -1,12 +1,14 @@
 import sqlite3
 import random
 import json
+from database import init_db
 
 with open('sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
 
 def insert_data():
+    init_db()
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
@@ -264,8 +266,8 @@ def insert_data():
 
             for student in students:
                 student_id = student[0]
-                # Randomly select 7 subjects for each student
-                selected_subjects = random.sample(subjects, min(7, len(subjects)))
+                # Randomly select # subjects for each student
+                selected_subjects = random.sample(subjects, min(15, len(subjects)))
 
                 for subj in selected_subjects:
                     yearwork = random.uniform(20, 40)
