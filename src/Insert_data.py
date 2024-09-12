@@ -177,7 +177,9 @@ cursor = conn.cursor()
 
 # Execute a query to read data from the subject_groups table
 while True:
-    print("users grades subjects subject_groups insert_data exit")
+    print("Commands:")
+    for command in ["users", "grades", "subjects", "subject_groups", "insert_data", "exit"]:
+        print(command)
     x = input(">>")
     if x == "exit":
         break
