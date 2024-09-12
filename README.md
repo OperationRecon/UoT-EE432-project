@@ -90,24 +90,21 @@ Note that the default password value is a VERY WEAK password and poses a signifi
 ### For Administrators
 
 1. Login using assigned ID and password (initially, password is "admin").
-2. Change password
-3. Manage Users (Add, Update, Delete, View)
-4. Manage Subjects and Subject Groups
-5. Oversee Enrollments and Grades
+2. Manage Users (Add, Update, Delete, View)
+3. Manage Subjects and Subject Groups
+4. Oversee Enrollments and Grades
 
 ### For Teachers
 
 1. Login using assigned ID and password (initially, password is the same as ID)
-2. Change password
-3. View and manage assigned subject groups
-5. Assign grades to students in their subject groups
+2. View and manage assigned subject groups
+3. Assign grades to students in their subject groups
 
 ### For Students
 
 1. Login using assigned ID and password (initially, password is the same as ID)
-2. Change password
-3. enroll and drop-out subjects
-4. View grades, semesters, and enrollments
+2. enroll and drop-out subjects
+3. View grades, semesters, and enrollments
 
 ### General Notes
 
