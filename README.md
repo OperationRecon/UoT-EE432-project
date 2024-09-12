@@ -60,6 +60,14 @@ This School Management System is designed to streamline administrative tasks in 
    - Helpers (`src/utils/helpers.py`): Contains utility functions like password hashing and role verification.
    - Validation (`src/utils/validation.py`): Implements input validation functions to ensure data integrity.
 
+### Database
+
+The `database.py` file initializes the system's database by:
+1. Creating necessary tables if they don't exist
+2. Creating a database file in the `data` directory if it's missing
+
+This design allows for easy database import/export by simply copying the file in the data folder.
+
 ## Key Functionalities
 
 1. User Authentication and Authorization
@@ -87,40 +95,32 @@ On first run (with an empty database), the system automatically:
 
 Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed after the initial setup.
 
-### For Administrators
+#### For Administrators
 
 1. Login using assigned ID and password (initially, password is "admin").
 2. Manage Users (Add, Update, Delete, View)
 3. Manage Subjects and Subject Groups
 4. Oversee Enrollments and Grades
 
-### For Teachers
+#### For Teachers
 
 1. Login using assigned ID and password (initially, password is the same as ID)
 2. View and manage assigned subject groups
 3. Assign grades to students in their subject groups
 
-### For Students
+#### For Students
 
 1. Login using assigned ID and password (initially, password is the same as ID)
 2. enroll and drop-out subjects
 3. View grades, semesters, and enrollments
 
-### General Notes
+#### General Notes
 
 - All users should change their initial password upon first login
 - Passwords must meet specific strength criteria (details in password change function)
 - The system includes safeguards to prevent deleting the last admin user
 
-## Database
-
-The `database.py` file initializes the system's database by:
-1. Creating necessary tables if they don't exist
-2. Creating a database file in the `data` directory if it's missing
-
-This design allows for easy database import/export by simply copying the file in the data folder.
-
-## User Types and ID Generation
+### User Types and ID Generation
 
 1. Admin:
    - ID starts from 1
@@ -135,6 +135,7 @@ This design allows for easy database import/export by simply copying the file in
    - Starts with '120', followed by random digits
 
 The system allows the use of previously generated IDs when creating a new user, provided the ID adheres to the system rules and is not currently in use.
+
 
 ## License
 
