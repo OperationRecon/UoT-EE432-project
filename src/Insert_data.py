@@ -4,7 +4,7 @@ import json
 from database import init_db
 from services.user_service import add_user
 
-with open('../sys_env.json', 'r') as file:
+with open('..\\sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
 
@@ -175,27 +175,40 @@ def insert_data():
 conn = sqlite3.connect(DATABASE)
 cursor = conn.cursor()
 
+commands = ["users", "grades", "subjects", "subject_groups", "insert_data", "exit"]
 # Execute a query to read data from the subject_groups table
 while True:
     print("Commands:")
-    for command in ["users", "grades", "subjects", "subject_groups", "insert_data", "exit"]:
+    for command in commands:
         print(command)
-    x = input(">>")
+    
+    x = input(">> ")
+    if x not in commands:
+        print('Invalid command!')
+        continue
+
     if x == "exit":
         break
+
     elif x == "insert_data":
         insert_data()
         continue
-    cursor.execute(f'SELECT * FROM {x}')
+
+    try:
+        cursor.execute(f'''SELECT * FROM {x}''')
 
     # Fetch all rows from the executed query
-    rows = cursor.fetchall()
+        rows = cursor.fetchall()
 
     # Print the rows
-    for row in rows:
-        print(row)
+        for row in rows:
+            print(row)
 
 # Close the connection
+    except Exception as e:
+        print(e.with_traceback())
+        conn.close()
+
 conn.close()
 
 
