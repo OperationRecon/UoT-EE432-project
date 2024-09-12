@@ -144,7 +144,7 @@ def assign_grade(user):
     yearwork = input("Enter yearwork grades: ") or grade.yearwork
     final = input("Enter Final Grade: ") or grade.final
     try:
-        grade_service.update_grade((student_id, subject_code, sem),
+        grade_service.update_grade((subject_code, student_id, sem),
                                    {'subject_code': subject_code, 'student_ID': student_id,
                                     'semester': sem, 'yearwork': yearwork, 'final': final,})
         print("Grade assigned successfully!")
