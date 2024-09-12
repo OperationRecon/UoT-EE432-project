@@ -1,6 +1,10 @@
 import sqlite3
 import random
-from sys_env import DATABASE_NAME
+import json
+
+with open('sys_env.json', 'r') as file:
+    data = json.load(file)
+DATABASE_NAME = data['database']
 
 def insert_data():
     conn = sqlite3.connect(DATABASE_NAME)
