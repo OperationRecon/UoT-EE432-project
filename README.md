@@ -86,9 +86,9 @@ This design allows for easy database import/export by simply copying the file in
 Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
 `pip install -r requirements.txt`
 
-To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data relative to main.py file. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
+To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data relative to main.py file. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\university.db"`)
 
-Default is:`"..\\data\\university.db"`
+Default is:`"..\\university.db"`
 
 On first run (with an empty database), the system automatically:
 1. Creates necessary database tables
@@ -186,6 +186,9 @@ This section provides an overview of all available commands in the university Ma
 - get current semester: Display the currently active semester.
 
 Note: The availability of these commands depends on the user's role (admin, teacher, or student). Use the help command after logging in to see which commands are available for your role.
+
+## Testing Environment
+A prepared database with preset subject and random student records can be created for the purposes of testing and experimenting with the commands. To create the test database, update the key `"database"` in `sys_env.json` to the path where the database is to be created. Then execute the `src\Insert_data.py` file. this database can then be accessed by running `main.py`. 
 
 ## License
 
