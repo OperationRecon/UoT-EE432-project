@@ -5,7 +5,7 @@ from utils.helpers import hash_password
 with open('../sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
-PASSWORD = data['password']
+PASSWORD = "admin"
 
 def get_connection():
     return sqlite3.connect(DATABASE)
