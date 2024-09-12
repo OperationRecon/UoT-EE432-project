@@ -77,7 +77,7 @@ This School Management System is designed to streamline administrative tasks in 
 Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
 `pip install -r requirements.txt`
 
-To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
+To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data relative to main.py file. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
 
 Default is:`"..\\data\\university.db"`
 
@@ -89,23 +89,25 @@ Note that the default password value is a VERY WEAK password and poses a signifi
 
 ### For Administrators
 
-1. Login using ID and password.
-2. Manage Users (Add, Update, Delete, View)
-3. Manage Subjects and Subject Groups
-4. Oversee Enrollments and Grades
+1. Login using assigned ID and password (initially, password is "admin").
+2. Change password
+3. Manage Users (Add, Update, Delete, View)
+4. Manage Subjects and Subject Groups
+5. Oversee Enrollments and Grades
 
 ### For Teachers
 
-1. Login using assigned ID (initially, password is the same as ID)
+1. Login using assigned ID and password (initially, password is the same as ID)
 2. Change password
 3. View and manage assigned subject groups
-4. Assign grades to students in their subject groups
+5. Assign grades to students in their subject groups
 
 ### For Students
 
-1. Login using assigned ID (initially, password is the same as ID)
+1. Login using assigned ID and password (initially, password is the same as ID)
 2. Change password
-3. View grades, semesters, and enrollments
+3. enroll and drop-out subjects
+4. View grades, semesters, and enrollments
 
 ### General Notes
 
