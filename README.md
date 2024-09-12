@@ -188,7 +188,7 @@ This section provides an overview of all available commands in the university Ma
 Note: The availability of these commands depends on the user's role (admin, teacher, or student). Use the help command after logging in to see which commands are available for your role.
 
 ## Testing Environment
-A prepared database with preset subject and random student records can be created for the purposes of testing and experimenting with the commands. To create the test database, update the key `"database"` in `sys_env.json` to the path where the database is to be created. Then execute the `src\Insert_data.py` file. this database can then be accessed by running `main.py`. 
+A prepared database with preset subject and random student records can be created for the purposes of testing and experimenting with the commands. To create the test database, update the key `"database"` in `sys_env.json` to the path where the database is to be created. Then execute the `src\Insert_data.py` file. this database can be inspected using the built-in CLI, or normally accessed by running `main.py`. 
 
 ## License
 
