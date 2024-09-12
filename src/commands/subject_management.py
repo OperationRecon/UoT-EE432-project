@@ -8,8 +8,17 @@ from utils.validation import *
 def add_subject(user):
     if not utils.helpers.verify_role(type(user), [Admin]):
         return 
-    
-    code = input("Enter subject's code: ")
+
+    while True:
+        code = input("Enter subject's code: ")
+        subject = subject_service.get_subject(code)
+        if code == "exit":
+            return
+        if subject:
+            print(f"The Subject with {code} already added. Enter another code or exit with 'exit'")
+            continue
+        break
+
     title = input("Enter subject's title: ")
     try:
         preq = " ".join([validate_subject(subject) for subject in input("Enter subject's prerequisites (space separated): ").split()])
