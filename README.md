@@ -76,6 +76,8 @@ This design allows for easy database import/export by simply copying the file in
 6. Password Management with Hashing
 7. Viewing Student Grades, Semesters, and Enrollments
 8. Teacher Control over Assigned Subject Groups and Grading
+9. Role-based Command Access
+10. Input Validation and Error Handling
 
 ## User Guide
 
@@ -93,30 +95,26 @@ On first run (with an empty database), the system automatically:
 
 Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed after the initial setup.
 
-#### For Administrators
 
-1. Login using assigned ID and password (initially, password is "admin").
-2. Manage Users (Add, Update, Delete, View)
-3. Manage Subjects and Subject Groups
-4. Oversee Enrollments and Grades
+### General Usage
 
-#### For Teachers
+1. Login using your assigned ID and password.
+2. Upon first login, all users should change their initial password.
+3. Use the `help` command to view available commands for your user role.
+4. Admin users have access to all commands, while teachers and students have limited access based on their roles.
+5. Attempting to use an unavailable command will result in an error message.
 
-1. Login using assigned ID and password (initially, password is the same as ID)
-2. View and manage assigned subject groups
-3. Assign grades to students in their subject groups
-
-#### For Students
-
-1. Login using assigned ID and password (initially, password is the same as ID)
-2. enroll and drop-out subjects
-3. View grades, semesters, and enrollments
 
 #### General Notes
 
-- All users should change their initial password upon first login
-- Passwords must meet specific strength criteria (details in password change function)
-- The system includes safeguards to prevent deleting the last admin user
+- All users should change their initial password upon first login.
+- Passwords must meet specific strength criteria (details in password change function).
+- The system prevents deletion of the last admin user to ensure continued system access.
+- A command is available to set the current semester, which is necessary for subject enrollment.
+- A subject group must be created before any enrollment could be made.
+- Enrollment is only possible for subject groups in the current semester.
+- The system enforces minimum and maximum unit limits for enrollments, with prerequisites and corequisites check.
+- Special "force enroll" and "force drop out" commands are available to bypass normal restrictions.
 
 ### User Types and ID Generation
 
@@ -137,8 +135,9 @@ The system allows the use of previously generated IDs when creating a new user, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under The GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgements
 
-[Insert any acknowledgements or credits here]
+Special thanks to Dr. Nuri BenBarka for his invaluable guidance and support throughout this course 
+His expertise and encouragement were instrumental in the successful completion of this School Management System.
