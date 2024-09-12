@@ -8,10 +8,8 @@ The final project for the EE432 Data Structure course in the University of Tripo
 3. [Modules](#modules)
 4. [Key Functionalities](#key-functionalities)
 5. [User Guide](#user-guide)
-6. [Database](#database)
-7. [User Types and ID Generation](#user-types-and-id-generation)
-8. [License](#license)
-9. [Acknowledgements](#acknowledgements)
+6. [License](#license)
+7. [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
@@ -60,6 +58,14 @@ This School Management System is designed to streamline administrative tasks in 
    - Helpers (`src/utils/helpers.py`): Contains utility functions like password hashing and role verification.
    - Validation (`src/utils/validation.py`): Implements input validation functions to ensure data integrity.
 
+### Database
+
+The `database.py` file initializes the system's database by:
+1. Creating necessary tables if they don't exist
+2. Creating a database file in the `data` directory if it's missing
+
+This design allows for easy database import/export by simply copying the file in the data folder.
+
 ## Key Functionalities
 
 1. User Authentication and Authorization
@@ -77,7 +83,7 @@ This School Management System is designed to streamline administrative tasks in 
 Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
 `pip install -r requirements.txt`
 
-To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
+To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data relative to main.py file. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
 
 Default is:`"..\\data\\university.db"`
 
@@ -87,41 +93,32 @@ On first run (with an empty database), the system automatically:
 
 Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed after the initial setup.
 
-### For Administrators
+#### For Administrators
 
-1. Login using ID and password.
+1. Login using assigned ID and password (initially, password is "admin").
 2. Manage Users (Add, Update, Delete, View)
 3. Manage Subjects and Subject Groups
 4. Oversee Enrollments and Grades
 
-### For Teachers
+#### For Teachers
 
-1. Login using assigned ID (initially, password is the same as ID)
-2. Change password
-3. View and manage assigned subject groups
-4. Assign grades to students in their subject groups
+1. Login using assigned ID and password (initially, password is the same as ID)
+2. View and manage assigned subject groups
+3. Assign grades to students in their subject groups
 
-### For Students
+#### For Students
 
-1. Login using assigned ID (initially, password is the same as ID)
-2. Change password
+1. Login using assigned ID and password (initially, password is the same as ID)
+2. enroll and drop-out subjects
 3. View grades, semesters, and enrollments
 
-### General Notes
+#### General Notes
 
 - All users should change their initial password upon first login
 - Passwords must meet specific strength criteria (details in password change function)
 - The system includes safeguards to prevent deleting the last admin user
 
-## Database
-
-The `database.py` file initializes the system's database by:
-1. Creating necessary tables if they don't exist
-2. Creating a database file in the `data` directory if it's missing
-
-This design allows for easy database import/export by simply copying the file in the data folder.
-
-## User Types and ID Generation
+### User Types and ID Generation
 
 1. Admin:
    - ID starts from 1
@@ -136,6 +133,7 @@ This design allows for easy database import/export by simply copying the file in
    - Starts with '120', followed by random digits
 
 The system allows the use of previously generated IDs when creating a new user, provided the ID adheres to the system rules and is not currently in use.
+
 
 ## License
 
