@@ -25,6 +25,8 @@ def command_help(user):
     }
 
     for category, cmd_list in categories.items():
+        if category = "User Management" and isinstance(user, [Student, Teacher]):
+            continue
         print(f"\n{category}:")
         for cmd in cmd_list:
             if cmd in commands and isinstance(user, commands[cmd][1]):
