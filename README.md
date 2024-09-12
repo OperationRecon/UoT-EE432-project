@@ -8,6 +8,7 @@ The final project for the EE432 Data Structure course in the University of Tripo
 3. [Modules](#modules)
 4. [Key Functionalities](#key-functionalities)
 5. [User Guide](#user-guide)
+5. [Commands](#Commands)
 6. [License](#license)
 7. [Acknowledgements](#acknowledgements)
 
@@ -132,6 +133,59 @@ Note that the default password value is a VERY WEAK password and poses a signifi
 
 The system allows the use of previously generated IDs when creating a new user, provided the ID adheres to the system rules and is not currently in use.
 
+## Commands
+
+This section provides an overview of all available commands in the university Management System.
+
+### User Authentication
+- login: login or switch to a different user account.
+- exit: Close the application.
+
+### General
+- help: Display a list of available commands for the current user role.
+- help `command`: Displays more information on a specific command.
+
+### Subject Management
+- add subject: Create a new subject in the system.
+- update subject: Modify details of an existing subject.
+- delete subject: Remove a subject from the system.
+- list subjects: Display all subjects in the system.
+
+### Subject Group Management
+- add subject group: Create a new subject group for a specific semester.
+- update subject group: Modify details of an existing subject group.
+- delete subject group: Remove a subject group from the system.
+- list subject groups: Display all subject groups of a specific subject.
+
+### Grade Management
+- add grade: Add a new grade entry for a student in a subject.
+- get grade: Retrieve a student’s grade for a specific subject and semester.
+- update grade: Modify an existing grade entry.
+- assign grade: Assign grades to students in a subject group.
+- delete grade: Remove a grade entry from the system.
+- show subject grades: Display all grades for a specific subject.
+- show student grades: Show all grades for a particular student.
+- show semester grades: Display grades and enrollments of a specific student for a semester.
+
+### User Management
+- add user: Create a new user account (admin, teacher, or student).
+- delete user: Remove a user account from the system.
+- update user: Modify details of an existing user account.
+- update password: Update the password for the logged-in user.
+- get user: Retrieve details of a specific user.
+- list users: Display all users in the system.
+
+### Enrollment Management
+- enroll: Enroll a student in a subject group for the current semester.
+- drop out: Remove a student from a subject group they're enrolled in.
+- force enroll: Enroll a student in a subject group, bypassing normal restrictions.
+- force drop out: Remove a student from a subject group, bypassing normal restrictions.
+
+### Semester Management
+- set current semester: Set the current semester for enrollment operations.
+- get current semester: Display the currently active semester.
+
+Note: The availability of these commands depends on the user's role (admin, teacher, or student). Use the help command after logging in to see which commands are available for your role.
 
 ## License
 
