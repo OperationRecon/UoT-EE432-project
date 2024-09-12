@@ -77,23 +77,19 @@ This School Management System is designed to streamline administrative tasks in 
 Make sure that all required packages are installed. To install required packages, open a CLI window. Navigate to the main folder of this program. Input the command:
 `pip install -r requirements.txt`
 
-To connect with the database, open the `sys_env.json` file and set the value of `DATABASE_NAME` to the desired path of the data. The path MUST be surrounded by quotation marks. 
-Default is:`DATABASE_NAME = 'data\university.db'`
+To connect with the database, open the `sys_env.json` file and set the value of `database` to the desired path of the data. The path MUST be surrounded by quotation marks. (i.e `"database": "..\\data\\university.db"`)
 
-The name and login password can be modified before the database is created. To the first admin's name and password, go to `sys_env.py` and, within the variable: `FIRST_ADMIN` input the following:
-`{'name': 'your_first_admin_name', 'password': 'your_first_admin_password'}`
-
-Default is: admin:admin
-
-Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed before or after the initial setup.
+Default is:`"..\\data\\university.db"`
 
 On first run (with an empty database), the system automatically:
 1. Creates necessary database tables
-2. Creates an admin user with ID and password using the values stored in `src\sys_env.py`
+2. Creates an admin user with ID=`1` and password=`admin`
+
+Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed after the initial setup.
 
 ### For Administrators
 
-1. Login using ID and password (as assigned in `src\sys_env.py`)
+1. Login using ID and password.
 2. Manage Users (Add, Update, Delete, View)
 3. Manage Subjects and Subject Groups
 4. Oversee Enrollments and Grades
