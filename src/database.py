@@ -2,7 +2,7 @@ import sqlite3
 import json
 from utils.helpers import hash_password
 
-with open('../sys_env.json', 'r') as file:
+with open('C:\\Users\\moham\\Documents\\UoT-EE432-project\\sys_env.json', 'r') as file:
     data = json.load(file)
 DATABASE = data['database']
 PASSWORD = "admin"
