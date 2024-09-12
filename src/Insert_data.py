@@ -26,7 +26,6 @@ def insert_data():
         ('GS112L', 'Physics Lab', 'GS111', '', '', 1, 'Engineering', 'General', ''),
         ('GS115', 'Chemistry', '', '', '', 3, 'Engineering', 'General', ''),
         ('GS115L', 'Chemistry Lab', '', '', '', 1, 'Engineering', 'General', ''),
-        ('GS200', 'Computer Programming', '', '', '', 3, 'Engineering', 'General', ''),
         ('GS203', 'Mathematics III', 'GS102', '', '', 3, 'Engineering', 'General', ''),
         ('GS204', 'Mathematics IV', '', '', '', 3, 'Engineering', 'General', ''),
         ('GS206', 'Probability & Statistics', '', '', '', 3, 'Engineering', 'General', ''),
