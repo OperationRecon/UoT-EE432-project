@@ -2,6 +2,7 @@ import sqlite3
 import random
 import json
 from database import init_db
+from services.user_service import add_user
 
 with open('../sys_env.json', 'r') as file:
     data = json.load(file)
@@ -124,27 +125,18 @@ def insert_data():
     # Insert 10 admins
     admin_ids = [str(i) for i in range(2, 12)]
     for i, admin_id in enumerate(admin_ids):
-        cursor.execute('''
-            INSERT INTO users (id, name, password_hash, user_type, enrollment_date)
-            VALUES (?, ?, ?, "admin", NULL)
-        ''', (admin_id, f"Admin{i+1}", "admin123"))
+        add_user([f"Admin{i + 1}",admin_id,"admin",admin_id,None])
 
     # Insert 30 teachers
     teacher_ids = [f"120{str(i).zfill(9)}" for i in range(1, 31)]
     for i, teacher_id in enumerate(teacher_ids):
-        cursor.execute('''
-            INSERT INTO users (id, name, password_hash, user_type, enrollment_date)
-            VALUES (?, ?, ?, "teacher", NULL)
-        ''', (teacher_id, f"Teacher{i+1}", "teacher123"))
+        add_user([f"Teacher{i+1}",teacher_id,"teacher",teacher_id,None])
 
     # Insert 60 students (10 per year from 2019 to 2024)
     for year in range(2019, 2025):
         for i in range(10):
             student_id = f"2{str(year)[-2:]}020{str(i).zfill(4)}"
-            cursor.execute('''
-                INSERT INTO users (id, name, password_hash, user_type, enrollment_date)
-                VALUES (?, ?, ?, "student", ?)
-            ''', (student_id, f"Student{year}_{i+1}", "student123", year))
+            add_user([f"Student{year}_{i + 1}",student_id,"student",student_id,year])
 
 
     subjects = [
