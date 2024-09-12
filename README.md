@@ -83,15 +83,15 @@ To connect with the databse, open the `src\sys_env.py` file and set the value of
 The name and login password can be modified before the database is created. To the first admin's name and password, go to `sys_env.py` and, within the variable: `FIRST_ADMIN` input the following:
 `{'name': 'your_first_admin_name', 'password': 'your_first_admin_password'}`
 
-Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changes before or after the initial setup.
+Note that the default password value is a VERY WEAK password and poses a significant threath to the security of the interface. Therefore, it is recommended that it be changed before or after the initial setup.
 
 On first run (with an empty database), the system automatically:
 1. Creates necessary database tables
-2. Creates an admin user with ID 1 and password "admin"
+2. Creates an admin user with ID and password using the values stored in `src\sys_env.py`
 
 ### For Administrators
 
-1. Login using ID 1 and password "admin" (change this password immediately)
+1. Login using ID and password (as assigned in `src\sys_env.py`)
 2. Manage Users (Add, Update, Delete, View)
 3. Manage Subjects and Subject Groups
 4. Oversee Enrollments and Grades
